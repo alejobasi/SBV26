@@ -1,0 +1,307 @@
+# ONEX Configuration
+# This file allows customization of ONEX behavior
+
+version: "1.0"
+
+# Project Information
+project:
+  name: "My Santander Project"
+  description: "Description of the project"
+  team: "Team Name"
+  
+# Default settings for new features
+defaults:
+  feature:
+    # Prefix for feature branches (e.g., feature/001-name or 001-name)
+    branch_prefix: ""
+    
+    # Starting number for features
+    start_number: 1
+    
+    # Number padding (001, 002, etc.)
+    number_padding: 3
+    
+    # Create Git branch automatically
+    create_branch: true
+    
+  # Default technology stack (used if not specified)
+  tech_stack:
+    language: "Java 17"
+    framework: "Santander Spring Boot 3.2"
+    database: "PostgreSQL 14"
+    messaging: "Apache Kafka"
+    gateway: "Darwin Gateway"
+
+# Constitution settings
+constitution:
+  # Minimum test coverage percentage
+  min_test_coverage: 80
+  
+  # Minimum branch coverage percentage
+  min_branch_coverage: 80
+  
+  # SonarQube quality gate (pass, warn, fail)
+  sonarqube_gate: "pass"
+  
+  # Security scan requirements
+  security:
+    fortify: true
+    owasp_dependency_check: true
+    max_critical_vulnerabilities: 0
+    max_high_vulnerabilities: 0
+  
+  # Documentation requirements
+  documentation:
+    api_docs: true          # OpenAPI/Swagger required
+    readme: true            # README.md required
+    architecture: true      # Architecture diagrams required
+    changelog: true         # CHANGELOG.md required
+
+# Jira Integration (used by /onex.taskstoissues)
+jira:
+  # Atlassian domain
+  domain: "santander.atlassian.net"
+
+  # Default Jira project key (e.g., ESPARQSOP, ESXARQBACK, ESXSGESP)
+  default_project: "ESPARQSOP"
+
+  # Default issue type when creating tasks
+  issue_type: "Story"
+
+  # Labels always applied to created issues
+  default_labels: ["onex"]
+
+  # Add comment to parent Jira issue (if found in spec.md Source References)
+  link_to_parent: true
+
+  # Auto-transition already-completed tasks (✅) to Done status in Jira
+  transition_completed: true
+
+  # Label prefix for feature tracking
+  feature_label_prefix: "onex:"
+
+# GitHub Integration (optional, only if project uses GitHub Issues as secondary tracker)
+github:
+  # Default repository (used by /acelespec.taskstoissues)
+  repository: "santander/my-project"
+  
+  # Create milestone for each feature
+  create_milestone: true
+  
+  # Create project board
+  create_project_board: true
+  
+  # Default assignee (@me uses current user)
+  default_assignee: "@me"
+  
+  # Label prefixes
+  labels:
+    priority_high: "priority:high"
+    priority_medium: "priority:medium"
+    priority_low: "priority:low"
+    acelespec_prefix: "acelespec:"
+    phase_prefix: "phase:"
+    type_prefix: "type:"
+    component_prefix: "component:"
+    framework_prefix: "framework:"
+    skill_prefix: "skill:"
+
+# Santander Resources Integration
+santander:
+  # Path to agents directory (relative to project root)
+  agents_path: "backend/agents"
+  
+  # Path to skills directory
+  skills_path: "backend/skills"
+  
+  # Path to toolsets directory
+  toolsets_path: "backend/toolsets"
+  
+  # Auto-reference resources in generated artifacts
+  auto_reference:
+    agents: true
+    skills: true
+    toolsets: true
+  
+  # Preferred agents by context
+  agents:
+    gateway: "darwin-gateway"
+    java_framework: "santander-springboot-expert"  # or "darwin-java-expert"
+    security: "java-security-expert"
+  
+  # Auto-apply skills
+  skills:
+    api: "api-design.skill"
+    database: "database-optimization.skill"
+    performance: "performance-tuning.skill"
+    troubleshooting: "troubleshooting.skill"
+
+# Quality Toolsets Configuration
+toolsets:
+  # Enable/disable specific toolsets
+  sonarqube:
+    enabled: true
+    config: "backend/toolsets/sonarqube-java.toolsets.jsonc"
+    
+  jacoco:
+    enabled: true
+    config: "backend/toolsets/jacoco-coverage.toolsets.jsonc"
+    
+  checkstyle:
+    enabled: true
+    config: "backend/toolsets/checkstyle-code-style.toolsets.jsonc"
+    
+  pmd:
+    enabled: true
+    config: "backend/toolsets/pmd-code-analysis.toolsets.jsonc"
+    
+  spotbugs:
+    enabled: true
+    config: "backend/toolsets/spotbugs-bug-detection.toolsets.jsonc"
+
+# Command-specific settings
+commands:
+  clarify:
+    # Auto-suggest Santander resources
+    auto_suggest_resources: true
+    
+    # Create clarifications.md by default
+    create_artifact: true
+  
+  analyze:
+    # Generate analysis.md report
+    create_report: true
+    
+    # Fail on critical issues
+    fail_on_critical: true
+    
+    # Check Santander standards
+    check_santander_standards: true
+  
+  checklist:
+    # Available checklist phases
+    phases:
+      - "pre-commit"
+      - "pre-pr"
+      - "pre-deploy"
+    
+    # Include toolset verification commands
+    include_toolset_commands: true
+    
+    # Include Santander resource references
+    include_resource_references: true
+  
+  taskstoissues:
+    # Create issues in Jira (primary tracker in Santander)
+    execute: true
+    
+    # Dry-run mode (preview without creating)
+    dry_run: false
+    
+    # Include Santander resources in issue descriptions
+    include_resources: true
+    
+    # Auto-commit code before creating issues (Step 0)
+    auto_commit_before: true
+
+  documentation:
+    # Default publication target for generated documentation
+    publish_target: "confluence"
+
+    # Also keep the generated documentation package inside the repository
+    create_repo_export: true
+
+    # Block publish when the coverage matrix still has critical gaps
+    require_full_coverage_matrix: true
+
+    # Minimum confidence accepted for inferred statements
+    min_confidence: 0.8
+
+# Templates Configuration
+templates:
+  # Path to templates directory
+  path: ".onex/templates"
+  
+  # Custom templates (override defaults)
+  custom:
+    spec: null
+    plan: null
+    constitution: null
+    agent_file: null
+
+# Memory System Configuration
+memory:
+  # Path to memory directory
+  path: ".onex/memory"
+  
+  # Auto-update progress.md after commands
+  auto_update_progress: true
+  
+  # Auto-update tech-stack.md after plan
+  auto_update_tech_stack: true
+  
+  # Save decisions.md entries automatically
+  auto_save_decisions: true
+  
+  # Track ACELESPEC command usage
+  track_command_usage: true
+
+# Agent Context Synchronization
+agent_context:
+  # Auto-update agent files after plan
+  auto_update: true
+  
+  # Agent files to update
+  files:
+    - ".github/agents/copilot-instructions.md"
+  
+  # Create from template if missing
+  create_if_missing: true
+
+# Output Format
+output:
+  # JSON output for scripts (useful for CI/CD)
+  json: false
+  
+  # Verbose logging
+  verbose: false
+  
+  # Color output
+  colors: true
+
+# Advanced Settings
+advanced:
+  # PowerShell script timeout (seconds)
+  script_timeout: 300
+  
+  # Parallel execution of independent tasks
+  parallel_execution: false
+  
+  # Cache analysis results
+  cache_analysis: true
+  
+  # Validate artifacts before commands
+  validate_artifacts: true
+
+# Feature Flags (experimental features)
+feature_flags:
+  # AI-powered suggestions
+  ai_suggestions: false
+  
+  # Auto-fix for common issues
+  auto_fix: false
+  
+  # Real-time collaboration
+  real_time_collaboration: false
+  
+  # Metrics dashboard
+  metrics_dashboard: false
+
+---
+
+# Notes:
+# - This configuration file is optional
+# - If not present, defaults from the code are used
+# - Place this file at: .acelespec/config.yml
+# - Restart VS Code or reload window after changes
+# - Some settings may require ACELESPEC restart to take effect

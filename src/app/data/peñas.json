@@ -1,0 +1,894 @@
+﻿[
+  {
+    "position": [
+      40.069567,
+      -6.656909
+    ],
+    "title": "Salida Chupinazo",
+    "info": "Punto de inicio de las fiestas de San Buenaventura",
+    "color": "#0a8738"
+  },
+  {
+    "position": [
+      40.068614,
+      -6.660431
+    ],
+    "title": "Plaza De Toros",
+    "info": "Centro de las fiestas y salida de los toros",
+    "color": "#e63946"
+  },
+  {
+    "position": [
+      40.068384,
+      -6.661403
+    ],
+    "title": "Ayuntamiento de Moraleja",
+    "info": "Lugar donde finaliza el chupinazo y se da inicio a las fiestas",
+    "color": "#1d3557"
+  },
+  {
+    "position": [
+      40.068881,
+      -6.660563
+    ],
+    "title": "Farmacia",
+    "info": "Farmacia ubicada cerca de la Plaza de Toros",
+    "color": "#bdecb6"
+  },
+  {
+    "position": [
+      40.066740,
+      -6.661305
+    ],
+    "title": "Farmacia",
+    "info": "Farmacia ubicada cerca del centro de Moraleja",
+    "color": "#bdecb6"
+  },
+  {
+    "position": [
+      40.068109,
+      -6.655405
+    ],
+    "title": "Farmacia",
+    "color": "#bdecb6"
+  },
+  {
+    "position": [
+      40.0662643,
+      -6.6623953
+    ],
+    "title": "Centro de Salud",
+    "info": "Centro de salud de Moraleja, cerca de la Plaza de Toros",
+    "color": "#f9a826"
+  },
+  {
+    "position": [
+      40.063947,
+      -6.662324
+    ],
+    "title": "Salida de los Encierros",
+    "info": "Lugar donde empiezan los encierros ",
+    "color": "#f9a826"
+  },
+  {
+    "position": [
+      40.06949,
+      -6.663469
+    ],
+    "title": "Recinto Ferial",
+    "info": "Lugar donde se encuentran las atracciones",
+    "color": "#0a8738"
+  },
+  {
+    "position": [
+      40.069586,
+      -6.660275
+    ],
+    "title": "Peña Los Preocupaos",
+    "image": "https://vaprctnqhiurqvwuchcx.supabase.co/storage/v1/object/public/sbv25//hqdefault%20(1)%20(1).jpg",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068215,
+      -6.660928
+    ],
+    "title": "Peña Tommys",
+    "image": "https://vaprctnqhiurqvwuchcx.supabase.co/storage/v1/object/public/sbv25//WhatsApp%20Image%202025-06-25%20at%2020.30.26.jpeg",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068234,
+      -6.659725
+    ],
+    "title": "Peña Troppers",
+    "image": "https://vaprctnqhiurqvwuchcx.supabase.co/storage/v1/object/public/sbv25//file_00000000568c61f4928830b793c21934%20(1).png",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068609,
+      -6.661226
+    ],
+    "title": "Peña La Pera Limonera",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068653,
+      -6.660779
+    ],
+    "title": "Peña 20 de copas",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068300,
+      -6.659978
+    ],
+    "title": "Peña Gallo Filisuco",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068518,
+      -6.661154
+    ],
+    "title": "Peña Las Victorias",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069098,
+      -6.660060
+    ],
+    "title": "Peña El Zarrio",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.070254,
+      -6.658994
+    ],
+    "title": "Peña La Higuera",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069442,
+      -6.661695
+    ],
+    "title": "Peña Los Compes",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068711,
+      -6.659562
+    ],
+    "title": "Peña 69",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067561,
+      -6.660103
+    ],
+    "title": "Peña Los Simpas",
+    "image": "https://vaprctnqhiurqvwuchcx.supabase.co/storage/v1/object/public/sbv25//IMG-20250711-WA0025.jpg",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069171,
+      -6.660968
+    ],
+    "title": "Peña El Local",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069175,
+      -6.660354
+    ],
+    "title": "Peña el tarmazo",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.066692,
+      -6.662010
+    ],
+    "title": "Peña Gran Cuñao",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068002,
+      -6.659686
+    ],
+    "title": "Peña los Meaos",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069048,
+      -6.658891
+    ],
+    "title": "Peña el Tardeo",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.066836,
+      -6.661958
+    ],
+    "title": "Peña la Ronda",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067500,
+      -6.661355
+    ],
+    "title": "Peña Nosotros Mismos",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068532,
+      -6.661080
+    ],
+    "title": "Peña Victorias",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068344,
+      -6.657881
+    ],
+    "title": "Peña los frisis",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067871,
+      -6.660761
+    ],
+    "title": "Peña LDR",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068599,
+      -6.660887
+    ],
+    "title": "Peña ETB´S",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.066658,
+      -6.662051
+    ],
+    "title": "Los Bodones",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069375,
+      -6.662354
+    ],
+    "title": "Peña el Corralino",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068729,
+      -6.661972
+    ],
+    "title": "Peña AI2BO4",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068609,
+      -6.659401
+    ],
+    "title": "Peña Clowers",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068138,
+      -6.659685
+    ],
+    "title": "Peña Impacto",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.066941,
+      -6.661256
+    ],
+    "title": "Peña San Buenaventurra",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069579,
+      -6.659438
+    ],
+    "title": "Peña Furriona",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069693,
+      -6.659037
+    ],
+    "title": "Peña El Cerdito Joe",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069057,
+      -6.660179
+    ],
+    "title": "Peña La Mirilla",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069493,
+      -6.659534
+    ],
+    "title": "Peña El Alicate",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069142,
+      -6.656812
+    ],
+    "title": "Peña El Resakon",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068978,
+      -6.659906
+    ],
+    "title": "Peña Los Apañados",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068138,
+      -6.659692
+    ],
+    "title": "Peña El Desacuerdo",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069414,
+      -6.659757
+    ],
+    "title": "Peña Desarropaos ya era hora",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068743,
+      -6.657713
+    ],
+    "title": "Peña Movil",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069233,
+      -6.661113
+    ],
+    "title": "Peña el Arrabal",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069270,
+      -6.659696
+    ],
+    "title": "Peña el Portalón",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069380,
+      -6.659667
+    ],
+    "title": "Peña los Gringos",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068976,
+      -6.661749
+    ],
+    "title": "Peña El Alboroto",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068602,
+      -6.660177
+    ],
+    "title": "Peña Los Arrejuntaos",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067551,
+      -6.661316
+    ],
+    "title": "Peña Sanque",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.063494,
+      -6.659889
+    ],
+    "title": "Peña el Sol",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069043,
+      -6.658963
+    ],
+    "title": "Peña Chirigota",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067042,
+      -6.661469
+    ],
+    "title": "Peña X Chicuelinas",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067772,
+      -6.661327
+    ],
+    "title": "Peña La XII-XIII",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067960,
+      -6.661343
+    ],
+    "title": "Peña Siglo XXI",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067467,
+      -6.660513
+    ],
+    "title": "Peña La Casina",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.066258,
+      -6.663576
+    ],
+    "title": "Peña La Mi Peña",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067644,
+      -6.661318
+    ],
+    "title": "Peña La Divisa",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067226,
+      -6.661095
+    ],
+    "title": "Peña Los Kennys´s",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069292,
+      -6.658906
+    ],
+    "title": "Peña El Tembleke",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069007,
+      -6.660437
+    ],
+    "title": "Peña Las Manolas",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068858,
+      -6.661566
+    ],
+    "title": "Peña Hawaii",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067697,
+      -6.659598
+    ],
+    "title": "Peña Brainly’s",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068467,
+      -6.659499
+    ],
+    "title": "Peña La última y Nos vamos",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068537,
+      -6.659521
+    ],
+    "title": "Peña GRIFFIN’S",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068662,
+      -6.659687
+    ],
+    "title": "Peña Las Antonias",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068725,
+      -6.662406
+    ],
+    "title": "Peña El Puente",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069594,
+      -6.659311
+    ],
+    "title": "Peña 14-jul",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.065184,
+      -6.661537
+    ],
+    "title": "Peña AL LIO",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068655,
+      -6.659339
+    ],
+    "title": "Peña Los Vips",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068775,
+      -6.659159
+    ],
+    "title": "Peña El corralino",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069148,
+      -6.660917
+    ],
+    "title": "Peña 20 conmigo",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067920,
+      -6.659721
+    ],
+    "title": "Peña Cleis, Lawers, Caciques",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068963,
+      -6.66024
+    ],
+    "title": "Peña el Suplemento",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068804,
+      -6.659016
+    ],
+    "title": "Peña Daruma´s",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068276,
+      -6.659624
+    ],
+    "title": "Peña DiverXos",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068798,
+      -6.660335
+    ],
+    "title": "Peña San Sacabó",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068691,
+      -6.659229
+    ],
+    "title": "Peña El Kate",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069095,
+      -6.659782
+    ],
+    "title": "Peña El Deskoloke",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069357,
+      -6.659475
+    ],
+    "title": "Peña El avispero",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068817,
+      -6.66066
+    ],
+    "title": "Peña veneno",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067818,
+      -6.660076
+    ],
+    "title": "Peña Peñita Brava",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.066961,
+      -6.661691
+    ],
+    "title": "Peña Los cinco",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.067181,
+      -6.660588
+    ],
+    "title": "Peña Los Kukos",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068590,
+      -6.659657
+    ],
+    "title": "Peña Presis",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.066365,
+      -6.659787
+    ],
+    "title": "Peña La Barbacoa",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069035,
+      -6.661668
+    ],
+    "title": "Peña Pake+",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.06938,
+      -6.659638
+    ],
+    "title": "Peña el jolgorio",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.070674,
+      -6.658764
+    ],
+    "title": "Peña La Ruina",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069158,
+      -6.659755
+    ],
+    "title": "Peña El Balconcillo",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068798,
+      -6.6614
+    ],
+    "title": "Peña Cantares",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.06774,
+      -6.659339
+    ],
+    "title": "Peña La Choper",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069190,
+      -6.661113
+    ],
+    "title": "Peña Despeña2",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.062352,
+      -6.660739
+    ],
+    "title": "Peña Los Tronaos",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069314,
+      -6.659764
+    ],
+    "title": "Peña Truchas",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069031,
+      -6.662314
+    ],
+    "title": "Peña El Salaero",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.066602,
+      -6.662159
+    ],
+    "title": "Peña RTD´S",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068728,
+      -6.660785
+    ],
+    "title": "Peña Tigri colors",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068899,
+      -6.661635
+    ],
+    "title": "Peña Marte Trece",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068709,
+      -6.660003
+    ],
+    "title": "Peña Dkt",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068562,
+      -6.662066
+    ],
+    "title": "Peña el Limonero",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068878,
+      -6.659448
+    ],
+    "title": "Peña El Tendido 7",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068604,
+      -6.660033
+    ],
+    "title": "Peña Los Arrejuntaos",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068162,
+      -6.660023
+    ],
+    "title": "Peña Las Fresis",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.065902,
+      -6.663711
+    ],
+    "title": "Peña La mi Peña",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068988,
+      -6.660363
+    ],
+    "title": "Peña de Los Sinte",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.069288,
+      -6.659886
+    ],
+    "title": "Peña Los Changaos",
+    "color": "#8338ec"
+  }
+]
