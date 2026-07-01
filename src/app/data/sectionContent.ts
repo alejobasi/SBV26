@@ -24,6 +24,7 @@ export interface SectionData {
   color: string;
   stats: { label: string; value: string }[];
   cards: SectionCard[];
+  showHero?: boolean;
 }
 
 const BASE = 'https://images.unsplash.com/photo-';
@@ -63,26 +64,23 @@ export const SECTION_DATA: Record<string, SectionData> = {
     id: 'bullfighting',
     title: 'Toros',
     emoji: '🐂',
-    tagline: 'Arte Ancestral,\nTradición Viva',
+    showHero: false,
+    tagline: 'Toros por\nlas Calles',
     description:
-      'Seville is the birthplace of modern bullfighting. A spectacle of courage, artistry, and passion that has defined Andalusian culture for three centuries.',
-    heroImage: img('1740154787822-a96bc35c8ebc'),
+      'Una de las tradiciones más emocionantes de las Fiestas de San Buenaventura. Los toros recorren las calles de Moraleja en un ambiente único.',
+    heroImage: '/toro-victorino-lunes-13.jpg',
     color: '#c94040',
-    stats: [
-      { label: 'Corridas por temporada', value: '20+' },
-      { label: 'Año de fundación', value: '1761' },
-      { label: 'Aforo del ruedo', value: '12,500' },
-    ],
+    stats: [],
     cards: [
       {
         id: 'bf1',
-        title: 'Ejemplo de Toros',
-        subtitle: 'Aquí irá el nombre del evento · Fecha',
-        description: 'Aquí irá la descripción del evento taurino cuando esté disponible.',
-        image: img('1740154787822-a96bc35c8ebc'),
-        tags: ['Ejemplo'],
-        badge: 'Próximamente',
-        meta: { date: 'Por confirmar', location: 'Plaza de Toros · Moraleja' },
+        title: 'Ganadería Victorino Martín',
+        subtitle: 'Petrolero · N79 · G1',
+        description: 'Toros por las calles de la Ganadería Victorino Martín. San Buenaventura 2026.',
+        image: '/toro-victorino-lunes-13.jpg',
+        tags: ['Toros por las calles', 'Victorino Martín'],
+        badge: '13 Jul · 22:00h',
+        meta: { date: 'Lunes 13 de Julio · 22:00h', location: 'Moraleja' },
       },
     ],
   },

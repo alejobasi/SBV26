@@ -10,6 +10,7 @@ interface Props {
   places: Place[];
   selectedPlaceId: string | null;
   onMarkerClick: (id: string) => void;
+  showLocationButton?: boolean;
 }
 
 interface UserLocation {
@@ -65,7 +66,7 @@ const userDotIcon = L.divIcon({
   className: '',
 });
 
-export function MapCanvas({ places, selectedPlaceId, onMarkerClick }: Props) {
+export function MapCanvas({ places, selectedPlaceId, onMarkerClick, showLocationButton = true }: Props) {
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const [locating, setLocating] = useState(false);
   const [flyTo, setFlyTo] = useState<UserLocation | null>(null);
@@ -89,8 +90,11 @@ export function MapCanvas({ places, selectedPlaceId, onMarkerClick }: Props) {
     );
   }, []);
 
-  const createCustomIcon = (emoji: string, color: string, isSelected: boolean) => {
+  const createCustomIcon = (emoji: string, color: string, isSelected: boolean, imgSrc?: string) => {
     const size = isSelected ? 44 : 36;
+    const inner = imgSrc
+      ? `<img src="${imgSrc}" style="width:${size - 8}px;height:${size - 8}px;border-radius:50%;object-fit:cover;" />`
+      : `<span style="font-size:${isSelected ? 22 : 18}px;line-height:1;">${emoji}</span>`;
     const html = `
       <div style="
         width: ${size}px;
@@ -101,10 +105,10 @@ export function MapCanvas({ places, selectedPlaceId, onMarkerClick }: Props) {
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        overflow: hidden;
       ">
-        ${emoji}
+        ${inner}
       </div>
     `;
     return L.divIcon({ html, iconSize: [size, size], className: 'custom-icon' });
@@ -129,11 +133,12 @@ export function MapCanvas({ places, selectedPlaceId, onMarkerClick }: Props) {
           const isSelected = place.id === selectedPlaceId;
           const color = CATEGORY_COLORS[place.category] || '#4a7c59';
           const emoji = CATEGORY_EMOJIS[place.category] || '📍';
+          const imgSrc = place.category === 'Nightlife' ? '/SBV_logo_redondo.png' : undefined;
           return (
             <Marker
               key={place.id}
               position={[place.lat, place.lng]}
-              icon={createCustomIcon(emoji, color, isSelected)}
+              icon={createCustomIcon(emoji, color, isSelected, imgSrc)}
               eventHandlers={{ click: () => onMarkerClick(place.id) }}
             />
           );
@@ -152,7 +157,7 @@ export function MapCanvas({ places, selectedPlaceId, onMarkerClick }: Props) {
       </MapContainer>
 
       {/* Botón de localización */}
-      <motion.button
+      {showLocationButton && <motion.button
         onClick={handleLocate}
         style={{
           position: 'absolute',
@@ -180,7 +185,7 @@ export function MapCanvas({ places, selectedPlaceId, onMarkerClick }: Props) {
           strokeWidth={2.5}
           fill={userLocation ? '#3b82f620' : 'none'}
         />
-      </motion.button>
+      </motion.button>}
     </div>
   );
 }

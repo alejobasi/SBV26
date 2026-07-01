@@ -15,7 +15,7 @@ export interface Place {
   lng: number;
 }
 
-export const CATEGORIES = ['All', 'Events', 'Bullfighting', 'Nightlife'];
+export const CATEGORIES = ['All', 'Events', 'Bullfighting'];
 
 export const CATEGORY_COLORS: Record<string, string> = {
   All: '#4a7c59',

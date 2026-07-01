@@ -82,6 +82,7 @@ export default function App() {
           places={filteredPlaces}
           selectedPlaceId={selectedPlaceId}
           onMarkerClick={handleMarkerClick}
+          showLocationButton={!currentSection}
         />
 
         {/* ── MAP OVERLAYS (only shown when on map) ── */}
@@ -190,10 +191,10 @@ export default function App() {
             <motion.div
               key={currentSection}
               className="absolute inset-0 z-20"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', stiffness: 295, damping: 32, restDelta: 0.5 }}
+              initial={{ x: '100%', opacity: 0.6 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0.6 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 34, restDelta: 0.5 }}
             >
               <SectionScreen section={currentSection} onBack={handleBackToMap} />
             </motion.div>

@@ -1,11 +1,14 @@
 import { useRef, useState, useCallback } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowLeft,
   Calendar,
   MapPin,
   Share2,
   ChevronDown,
+  X,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { SECTION_DATA, SectionData, SectionCard } from '../data/sectionContent';
 
@@ -79,7 +82,7 @@ function HeroCard({ data, isVisible }: { data: SectionData; isVisible: boolean }
         {/* Tagline */}
         <h1
           style={{
-            fontSize: 34,
+            fontSize: 'clamp(26px, 7vw, 36px)',
             fontWeight: 800,
             color: 'white',
             letterSpacing: '-0.03em',
@@ -104,38 +107,40 @@ function HeroCard({ data, isVisible }: { data: SectionData; isVisible: boolean }
         </p>
 
         {/* Stats row */}
-        <div
-          className="flex gap-0"
-          style={{
-            marginBottom: 22,
-            backgroundColor: 'rgba(255,255,255,0.09)',
-            backdropFilter: 'blur(12px)',
-            borderRadius: 18,
-            border: '1px solid rgba(255,255,255,0.12)',
-            overflow: 'hidden',
-          }}
-        >
-          {data.stats.map((stat, i) => (
-            <div
-              key={stat.label}
-              className="flex-1 flex flex-col items-center"
-              style={{
-                padding: '14px 8px',
-                borderRight:
-                  i < data.stats.length - 1 ? '1px solid rgba(255,255,255,0.1)' : 'none',
-              }}
-            >
-              <span
-                style={{ fontSize: 20, fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}
+        {data.stats.length > 0 && (
+          <div
+            className="flex gap-0"
+            style={{
+              marginBottom: 22,
+              backgroundColor: 'rgba(255,255,255,0.09)',
+              backdropFilter: 'blur(12px)',
+              borderRadius: 18,
+              border: '1px solid rgba(255,255,255,0.12)',
+              overflow: 'hidden',
+            }}
+          >
+            {data.stats.map((stat, i) => (
+              <div
+                key={stat.label}
+                className="flex-1 flex flex-col items-center"
+                style={{
+                  padding: '14px 8px',
+                  borderRight:
+                    i < data.stats.length - 1 ? '1px solid rgba(255,255,255,0.1)' : 'none',
+                }}
               >
-                {stat.value}
-              </span>
-              <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>
-                {stat.label}
-              </span>
-            </div>
-          ))}
-        </div>
+                <span
+                  style={{ fontSize: 20, fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}
+                >
+                  {stat.value}
+                </span>
+                <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Scroll hint */}
         <motion.div
@@ -153,6 +158,167 @@ function HeroCard({ data, isVisible }: { data: SectionData; isVisible: boolean }
   );
 }
 
+// ─── Share Sheet ──────────────────────────────────────────────────────────────
+
+function ShareSheet({
+  card,
+  onClose,
+}: {
+  card: SectionCard;
+  onClose: () => void;
+}) {
+  const [copied, setCopied] = useState(false);
+  const url = window.location.href;
+  const text = `${card.title} – ${card.subtitle}`;
+
+  const options = [
+    {
+      label: 'WhatsApp',
+      color: '#25D366',
+      icon: '💬',
+      href: `https://wa.me/?text=${encodeURIComponent(text + '\n' + url)}`,
+    },
+    {
+      label: 'Telegram',
+      color: '#229ED9',
+      icon: '✈️',
+      href: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
+    },
+    {
+      label: 'Twitter / X',
+      color: '#000000',
+      icon: '🐦',
+      href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+    },
+    {
+      label: 'Facebook',
+      color: '#1877F2',
+      icon: '👤',
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+    },
+  ];
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex items-end justify-center"
+      style={{ backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.div
+        className="w-full"
+        style={{
+          maxWidth: 480,
+          backgroundColor: '#1a1a1a',
+          borderRadius: '24px 24px 0 0',
+          padding: 'clamp(20px, 5vw, 28px)',
+          paddingBottom: 'max(28px, env(safe-area-inset-bottom, 28px))',
+        }}
+        initial={{ y: '100%' }}
+        animate={{ y: 0 }}
+        exit={{ y: '100%' }}
+        transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Handle + header */}
+        <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
+          <span style={{ fontSize: 'clamp(15px, 4vw, 17px)', fontWeight: 700, color: 'white' }}>
+            Compartir
+          </span>
+          <button
+            onClick={onClose}
+            style={{
+              width: 32, height: 32, borderRadius: '50%',
+              backgroundColor: 'rgba(255,255,255,0.1)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: 'none', cursor: 'pointer',
+            }}
+          >
+            <X size={16} color="white" />
+          </button>
+        </div>
+
+        {/* App grid */}
+        <div
+          className="grid"
+          style={{ gridTemplateColumns: 'repeat(4, 1fr)', gap: 'clamp(8px, 3vw, 16px)', marginBottom: 20 }}
+        >
+          {options.map((opt) => (
+            <a
+              key={opt.label}
+              href={opt.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center"
+              style={{ gap: 8, textDecoration: 'none' }}
+            >
+              <div
+                style={{
+                  width: 'clamp(52px, 14vw, 62px)',
+                  height: 'clamp(52px, 14vw, 62px)',
+                  borderRadius: 16,
+                  backgroundColor: opt.color,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 'clamp(22px, 6vw, 28px)',
+                }}
+              >
+                {opt.icon}
+              </div>
+              <span style={{ fontSize: 'clamp(10px, 3vw, 12px)', color: 'rgba(255,255,255,0.7)', textAlign: 'center' }}>
+                {opt.label}
+              </span>
+            </a>
+          ))}
+        </div>
+
+        {/* Copy link */}
+        <button
+          onClick={handleCopy}
+          className="w-full flex items-center gap-3"
+          style={{
+            backgroundColor: 'rgba(255,255,255,0.08)',
+            border: '1px solid rgba(255,255,255,0.12)',
+            borderRadius: 14,
+            padding: '13px 16px',
+            cursor: 'pointer',
+          }}
+        >
+          <div
+            style={{
+              width: 36, height: 36, borderRadius: 10,
+              backgroundColor: 'rgba(255,255,255,0.12)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+            }}
+          >
+            {copied ? <Check size={18} color="#4ade80" /> : <Copy size={18} color="white" />}
+          </div>
+          <div className="flex flex-col items-start" style={{ overflow: 'hidden' }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: copied ? '#4ade80' : 'white' }}>
+              {copied ? '¡Enlace copiado!' : 'Copiar enlace'}
+            </span>
+            <span
+              style={{
+                fontSize: 11, color: 'rgba(255,255,255,0.4)',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%',
+              }}
+            >
+              {url}
+            </span>
+          </div>
+        </button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ─── Content Card ─────────────────────────────────────────────────────────────
 
 function ContentCard({
@@ -164,251 +330,236 @@ function ContentCard({
   color: string;
   isVisible: boolean;
 }) {
+  const [showShare, setShowShare] = useState(false);
+  const [uiVisible, setUiVisible] = useState(true);
+
   const handleShare = async () => {
-    try {
-      await navigator.share({ title: card.title, text: card.subtitle, url: window.location.href });
-    } catch {
-      // Share cancelled or not supported
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: card.title, text: card.subtitle, url: window.location.href });
+        return;
+      } catch {
+        // cancelled, fall through to sheet
+      }
     }
+    setShowShare(true);
   };
 
   return (
-    <div
-      className="relative w-full flex-shrink-0 overflow-hidden"
-      style={{ height: '100%', scrollSnapAlign: 'start' }}
-    >
-      {/* Hero image */}
-      <div className="absolute inset-0">
-        <img
-          src={card.image}
-          alt={card.title}
-          className="w-full h-full object-cover"
-          style={{
-            transform: isVisible ? 'scale(1.0)' : 'scale(1.06)',
-            transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)',
-          }}
-        />
-      </div>
-
-      {/* Top vignette */}
+    <>
       <div
-        className="absolute inset-x-0 top-0"
-        style={{
-          height: 180,
-          background:
-            'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 60%, transparent 100%)',
-        }}
-      />
-
-      {/* Bottom vignette */}
-      <div
-        className="absolute inset-x-0 bottom-0"
-        style={{
-          height: '72%',
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.35) 65%, transparent 100%)',
-        }}
-      />
-
-      {/* Badge – top left */}
-      {card.badge && (
-        <motion.div
-          className="absolute flex items-center"
-          style={{ top: 64, left: 18 }}
-          initial={{ x: -20, opacity: 0 }}
-          animate={{ x: isVisible ? 0 : -20, opacity: isVisible ? 1 : 0 }}
-          transition={{ delay: 0.15, duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
-        >
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: 'white',
-              backgroundColor: `${color}ee`,
-              paddingTop: 5,
-              paddingBottom: 5,
-              paddingLeft: 11,
-              paddingRight: 11,
-              borderRadius: 50,
-              backdropFilter: 'blur(8px)',
-              letterSpacing: '0.02em',
-            }}
-          >
-            {card.badge}
-          </span>
-        </motion.div>
-      )}
-
-      {/* Right action buttons */}
-      <div
-        className="absolute flex flex-col items-center gap-5"
-        style={{ right: 14, bottom: 210 }}
+        className="relative w-full flex-shrink-0 overflow-hidden"
+        style={{ height: '100%', scrollSnapAlign: 'start' }}
+        onClick={() => setUiVisible((v) => !v)}
       >
-        <motion.button
-          onClick={handleShare}
-          className="flex flex-col items-center"
-          style={{ gap: 5 }}
-          initial={{ x: 28, opacity: 0 }}
-          animate={{ x: isVisible ? 0 : 28, opacity: isVisible ? 1 : 0 }}
-          transition={{ delay: 0.28, duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-          whileTap={{ scale: 0.82 }}
-        >
-          <div
-            className="flex items-center justify-center rounded-full"
+        {/* Hero image */}
+        <div className="absolute inset-0">
+          <img
+            src={card.image}
+            alt={card.title}
+            className="w-full h-full object-cover"
             style={{
-              width: 46,
-              height: 46,
-              backgroundColor: 'rgba(255,255,255,0.16)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255,255,255,0.22)',
+              transform: isVisible ? 'scale(1.0)' : 'scale(1.06)',
+              transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)',
             }}
-          >
-            <Share2 size={22} color="white" strokeWidth={2} />
-          </div>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)', fontWeight: 500 }}>
-            Compartir
-          </span>
-        </motion.button>
-      </div>
-
-      {/* Bottom info panel */}
-      <motion.div
-        className="absolute bottom-0 inset-x-0"
-        style={{ padding: '0 20px 38px' }}
-        initial={{ y: 28, opacity: 0 }}
-        animate={{ y: isVisible ? 0 : 28, opacity: isVisible ? 1 : 0 }}
-        transition={{ delay: 0.07, duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
-      >
-        {/* Tags */}
-        <div className="flex gap-2 flex-wrap" style={{ marginBottom: 12 }}>
-          {card.tags.map((tag) => (
-            <span
-              key={tag}
-              style={{
-                fontSize: 11,
-                paddingTop: 4,
-                paddingBottom: 4,
-                paddingLeft: 10,
-                paddingRight: 10,
-                borderRadius: 50,
-                backgroundColor: 'rgba(255,255,255,0.13)',
-                backdropFilter: 'blur(10px)',
-                color: 'rgba(255,255,255,0.85)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                fontWeight: 500,
-              }}
-            >
-              {tag}
-            </span>
-          ))}
+          />
         </div>
 
-        {/* Title */}
-        <h2
+        {/* Top vignette */}
+        <motion.div
+          className="absolute inset-x-0 top-0"
+          animate={{ opacity: uiVisible ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
           style={{
-            fontSize: 28,
-            fontWeight: 800,
-            color: 'white',
-            letterSpacing: '-0.03em',
-            lineHeight: 1.12,
-            marginBottom: 5,
+            height: '25vmax',
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 60%, transparent 100%)',
           }}
-        >
-          {card.title}
-        </h2>
+        />
 
-        {/* Subtitle */}
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginBottom: 12 }}>
-          {card.subtitle}
-        </p>
+        {/* Bottom vignette */}
+        <motion.div
+          className="absolute inset-x-0 bottom-0"
+          animate={{ opacity: uiVisible ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            height: '72%',
+            background: 'linear-gradient(to top, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.35) 65%, transparent 100%)',
+          }}
+        />
 
-        {/* Meta strip */}
-        {(card.meta?.date || card.meta?.location || card.meta?.price) && (
-          <div
-            className="flex items-center flex-wrap gap-x-3 gap-y-1"
-            style={{
-              marginBottom: 14,
-              padding: '10px 14px',
-              borderRadius: 14,
-              backgroundColor: 'rgba(255,255,255,0.09)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.12)',
-            }}
+        {/* Badge – top left */}
+        {card.badge && (
+          <motion.div
+            className="absolute flex items-center"
+            style={{ top: 'clamp(56px, 10vh, 72px)', left: 18 }}
+            animate={{ opacity: uiVisible && isVisible ? 1 : 0, x: uiVisible && isVisible ? 0 : -20 }}
+            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            {card.meta?.date && (
-              <div className="flex items-center gap-1.5">
-                <Calendar size={12} color="rgba(255,255,255,0.55)" />
-                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.68)' }}>
-                  {card.meta.date}
-                </span>
-              </div>
-            )}
-            {card.meta?.location && (
-              <div className="flex items-center gap-1">
-                <MapPin size={12} color="rgba(255,255,255,0.55)" />
-                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.68)' }}>
-                  {card.meta.location}
-                </span>
-              </div>
-            )}
-            {card.meta?.price && (
-              <span
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: 'white',
-                  backgroundColor: `${color}60`,
-                  paddingLeft: 9,
-                  paddingRight: 9,
-                  paddingTop: 3,
-                  paddingBottom: 3,
-                  borderRadius: 8,
-                }}
-              >
-                {card.meta.price}
-              </span>
-            )}
-          </div>
+            <span
+              style={{
+                fontSize: 'clamp(10px, 2.5vw, 12px)',
+                fontWeight: 700,
+                color: 'white',
+                backgroundColor: `${color}ee`,
+                padding: '5px 11px',
+                borderRadius: 50,
+                backdropFilter: 'blur(8px)',
+                letterSpacing: '0.02em',
+              }}
+            >
+              {card.badge}
+            </span>
+          </motion.div>
         )}
 
-        {/* Description */}
-        <p
-          style={
-            {
-              fontSize: 13.5,
-              color: 'rgba(255,255,255,0.7)',
-              lineHeight: 1.6,
-              marginBottom: 18,
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            } as React.CSSProperties
-          }
+        {/* Right action buttons */}
+        <motion.div
+          className="absolute flex flex-col items-center gap-5"
+          style={{ right: 'clamp(10px, 3vw, 18px)', bottom: 'clamp(180px, 32vh, 260px)' }}
+          animate={{ opacity: uiVisible && isVisible ? 1 : 0, x: uiVisible && isVisible ? 0 : 28 }}
+          transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+          onClick={(e) => e.stopPropagation()}
         >
-          {card.description}
-        </p>
+          <motion.button
+            onClick={handleShare}
+            className="flex flex-col items-center"
+            style={{ gap: 5 }}
+            whileTap={{ scale: 0.82 }}
+          >
+            <div
+              className="flex items-center justify-center rounded-full"
+              style={{
+                width: 'clamp(40px, 10vw, 50px)',
+                height: 'clamp(40px, 10vw, 50px)',
+                backgroundColor: 'rgba(255,255,255,0.16)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.22)',
+              }}
+            >
+              <Share2 size={22} color="white" strokeWidth={2} />
+            </div>
+            <span style={{ fontSize: 'clamp(10px, 2.5vw, 12px)', color: 'rgba(255,255,255,0.8)', fontWeight: 500 }}>
+              Compartir
+            </span>
+          </motion.button>
+        </motion.div>
 
-        {/* CTA */}
-        <motion.button
-          className="w-full flex items-center justify-center gap-2"
-          style={{
-            backgroundColor: color,
-            color: 'white',
-            fontWeight: 700,
-            fontSize: 15,
-            paddingTop: 15,
-            paddingBottom: 15,
-            borderRadius: 18,
-            boxShadow: `0 8px 30px ${color}50`,
-            letterSpacing: '-0.01em',
-          }}
-          whileTap={{ scale: 0.97 }}
+        {/* Bottom info panel */}
+        <motion.div
+          className="absolute bottom-0 inset-x-0"
+          style={{ padding: 'clamp(0px, 2vh, 10px) clamp(16px, 5vw, 24px) clamp(28px, 6vh, 48px)' }}
+          animate={{ opacity: uiVisible ? 1 : 0, y: uiVisible ? 0 : 28 }}
+          transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          Más información
-        </motion.button>
-      </motion.div>
-    </div>
+          {/* Tags */}
+          <div className="flex gap-2 flex-wrap" style={{ marginBottom: 'clamp(8px, 2vh, 14px)' }}>
+            {card.tags.map((tag) => (
+              <span
+                key={tag}
+                style={{
+                  fontSize: 'clamp(10px, 2.5vw, 12px)',
+                  padding: '4px 10px',
+                  borderRadius: 50,
+                  backgroundColor: 'rgba(255,255,255,0.13)',
+                  backdropFilter: 'blur(10px)',
+                  color: 'rgba(255,255,255,0.85)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  fontWeight: 500,
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* Title */}
+          <h2
+            style={{
+              fontSize: 'clamp(22px, 6vw, 30px)',
+              fontWeight: 800,
+              color: 'white',
+              letterSpacing: '-0.03em',
+              lineHeight: 1.12,
+              marginBottom: 'clamp(4px, 1vh, 8px)',
+            }}
+          >
+            {card.title}
+          </h2>
+
+          {/* Subtitle */}
+          <p style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'rgba(255,255,255,0.6)', marginBottom: 'clamp(8px, 2vh, 14px)' }}>
+            {card.subtitle}
+          </p>
+
+          {/* Meta strip */}
+          {(card.meta?.date || card.meta?.location || card.meta?.price) && (
+            <div
+              className="flex items-center flex-wrap gap-x-3 gap-y-1"
+              style={{
+                marginBottom: 'clamp(8px, 2vh, 14px)',
+                padding: '10px 14px',
+                borderRadius: 14,
+                backgroundColor: 'rgba(255,255,255,0.09)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.12)',
+              }}
+            >
+              {card.meta?.date && (
+                <div className="flex items-center gap-1.5">
+                  <Calendar size={12} color="rgba(255,255,255,0.55)" />
+                  <span style={{ fontSize: 'clamp(11px, 2.5vw, 13px)', color: 'rgba(255,255,255,0.68)' }}>
+                    {card.meta.date}
+                  </span>
+                </div>
+              )}
+              {card.meta?.location && (
+                <div className="flex items-center gap-1">
+                  <MapPin size={12} color="rgba(255,255,255,0.55)" />
+                  <span style={{ fontSize: 'clamp(11px, 2.5vw, 13px)', color: 'rgba(255,255,255,0.68)' }}>
+                    {card.meta.location}
+                  </span>
+                </div>
+              )}
+              {card.meta?.price && (
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: 'white',
+                    backgroundColor: `${color}60`,
+                    padding: '3px 9px',
+                    borderRadius: 8,
+                  }}
+                >
+                  {card.meta.price}
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* Description */}
+          <p
+            style={
+              {
+                fontSize: 'clamp(12px, 3vw, 14px)',
+                color: 'rgba(255,255,255,0.7)',
+                lineHeight: 1.6,
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              } as React.CSSProperties
+            }
+          >
+            {card.description}
+          </p>
+        </motion.div>
+      </div>
+
+      <AnimatePresence>
+        {showShare && <ShareSheet card={card} onClose={() => setShowShare(false)} />}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -424,7 +575,8 @@ export function SectionScreen({ section, onBack }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [visibleCard, setVisibleCard] = useState(0);
 
-  const totalCards = data ? data.cards.length + 1 : 0; // +1 for hero
+  const showHero = data?.showHero !== false;
+  const totalCards = data ? data.cards.length + (showHero ? 1 : 0) : 0;
 
   const handleScroll = useCallback(() => {
     if (!scrollRef.current) return;
@@ -476,16 +628,19 @@ export function SectionScreen({ section, onBack }: Props) {
 
         {/* Section title */}
         <motion.div
-          className="flex items-center gap-2"
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
         >
-          <span style={{ fontSize: 17 }}>{data.emoji}</span>
           <span
-            style={{ fontSize: 15, fontWeight: 700, color: 'white', letterSpacing: '-0.01em' }}
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 'clamp(22px, 6vw, 28px)',
+              color: 'white',
+              letterSpacing: '0.18em',
+            }}
           >
-            {data.title}
+            {data.title.toUpperCase()}
           </span>
         </motion.div>
 
@@ -523,14 +678,14 @@ export function SectionScreen({ section, onBack }: Props) {
         } as React.CSSProperties}
         onScroll={handleScroll}
       >
-        <HeroCard data={data} isVisible={visibleCard === 0} />
+        {showHero && <HeroCard data={data} isVisible={visibleCard === 0} />}
 
         {data.cards.map((card, i) => (
           <ContentCard
             key={card.id}
             card={card}
             color={data.color}
-            isVisible={visibleCard === i + 1}
+            isVisible={visibleCard === (showHero ? i + 1 : i)}
           />
         ))}
       </div>
