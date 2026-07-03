@@ -9,6 +9,7 @@ import {
   X,
   Copy,
   Check,
+  Lock,
 } from 'lucide-react';
 import { SECTION_DATA, SectionData, SectionCard } from '../data/sectionContent';
 
@@ -538,21 +539,23 @@ function ContentCard({
           )}
 
           {/* Description */}
-          <p
-            style={
-              {
-                fontSize: 'clamp(12px, 3vw, 14px)',
-                color: 'rgba(255,255,255,0.7)',
-                lineHeight: 1.6,
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              } as React.CSSProperties
-            }
-          >
-            {card.description}
-          </p>
+          {card.description && (
+            <p
+              style={
+                {
+                  fontSize: 'clamp(12px, 3vw, 14px)',
+                  color: 'rgba(255,255,255,0.7)',
+                  lineHeight: 1.6,
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                } as React.CSSProperties
+              }
+            >
+              {card.description}
+            </p>
+          )}
         </motion.div>
       </div>
 
@@ -574,9 +577,16 @@ export function SectionScreen({ section, onBack }: Props) {
   const data = SECTION_DATA[section];
   const scrollRef = useRef<HTMLDivElement>(null);
   const [visibleCard, setVisibleCard] = useState(0);
+  const [activeGroup, setActiveGroup] = useState<string>(data?.groups?.[0]?.id ?? '');
+
+  const cards = data
+    ? data.groups
+      ? data.cards.filter((c) => c.group === activeGroup)
+      : data.cards
+    : [];
 
   const showHero = data?.showHero !== false;
-  const totalCards = data ? data.cards.length + (showHero ? 1 : 0) : 0;
+  const totalCards = data ? Math.max(1, cards.length + (showHero ? 1 : 0)) : 0;
 
   const handleScroll = useCallback(() => {
     if (!scrollRef.current) return;
@@ -585,6 +595,12 @@ export function SectionScreen({ section, onBack }: Props) {
     const idx = Math.round(scrollRef.current.scrollTop / h);
     setVisibleCard(Math.max(0, Math.min(idx, totalCards - 1)));
   }, [totalCards]);
+
+  const handleGroupChange = (id: string) => {
+    setActiveGroup(id);
+    setVisibleCard(0);
+    scrollRef.current?.scrollTo({ top: 0 });
+  };
 
   if (!data) return null;
 
@@ -666,6 +682,44 @@ export function SectionScreen({ section, onBack }: Props) {
         </motion.div>
       </div>
 
+      {/* ── Group tabs ── */}
+      {data.groups && (
+        <div
+          className="absolute inset-x-0 z-10 flex items-center justify-center gap-2"
+          style={{ top: 104, paddingInline: 16 }}
+        >
+          {data.groups.map((group) => {
+            const isActive = group.id === activeGroup;
+            const isGroupEmpty = !data.cards.some((c) => c.group === group.id);
+            return (
+              <motion.button
+                key={group.id}
+                onClick={() => handleGroupChange(group.id)}
+                className="flex items-center gap-1.5"
+                style={{
+                  paddingTop: 8,
+                  paddingBottom: 8,
+                  paddingLeft: 14,
+                  paddingRight: 14,
+                  borderRadius: 50,
+                  fontSize: 12.5,
+                  fontWeight: isActive ? 700 : 500,
+                  color: isActive ? 'white' : 'rgba(255,255,255,0.65)',
+                  backgroundColor: isActive ? data.color : 'rgba(255,255,255,0.1)',
+                  border: `1px solid ${isActive ? data.color : 'rgba(255,255,255,0.18)'}`,
+                  backdropFilter: 'blur(10px)',
+                }}
+                whileTap={{ scale: 0.94 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+              >
+                {isGroupEmpty && <Lock size={11} color={isActive ? 'white' : '#fbbf24'} strokeWidth={2.5} />}
+                {group.label}
+              </motion.button>
+            );
+          })}
+        </div>
+      )}
+
       {/* ── TikTok snap feed ── */}
       <div
         ref={scrollRef}
@@ -680,7 +734,9 @@ export function SectionScreen({ section, onBack }: Props) {
       >
         {showHero && <HeroCard data={data} isVisible={visibleCard === 0} />}
 
-        {data.cards.map((card, i) => (
+        {!showHero && cards.length === 0 && <EmptyGroupCard color={data.color} />}
+
+        {cards.map((card, i) => (
           <ContentCard
             key={card.id}
             card={card}
@@ -689,6 +745,39 @@ export function SectionScreen({ section, onBack }: Props) {
           />
         ))}
       </div>
+    </div>
+  );
+}
+
+// ─── Empty group placeholder ──────────────────────────────────────────────────
+
+function EmptyGroupCard({ color }: { color: string }) {
+  return (
+    <div
+      className="relative w-full flex flex-col items-center justify-center flex-shrink-0"
+      style={{
+        height: '100%',
+        scrollSnapAlign: 'start',
+        background: `radial-gradient(circle at 50% 40%, ${color}22 0%, #14110d 55%, #0a0a0a 100%)`,
+      }}
+    >
+      <div
+        className="flex items-center justify-center rounded-full"
+        style={{
+          width: 72, height: 72,
+          backgroundColor: '#fbbf2420',
+          border: '1.5px solid #fbbf2450',
+          marginBottom: 18,
+        }}
+      >
+        <Lock size={28} color="#fbbf24" strokeWidth={2} />
+      </div>
+      <p style={{ fontSize: 18, fontWeight: 800, color: 'white', letterSpacing: '-0.02em', marginBottom: 6 }}>
+        Muy pronto
+      </p>
+      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', textAlign: 'center', maxWidth: 240 }}>
+        Estamos preparando los eventos generales de las fiestas.
+      </p>
     </div>
   );
 }

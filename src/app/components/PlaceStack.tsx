@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'motion/react';
-import { X, Navigation2 } from 'lucide-react';
+import { X, Navigation2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Place, CATEGORY_COLORS, CATEGORY_EMOJIS, CATEGORY_LABELS } from './data/places';
 
 function mapsUrl(place: Place) {
@@ -60,14 +60,36 @@ export function PlaceStack({ places, initialPlaceId, onClose, onPlaceChange }: P
 
   return (
     <motion.div
-      className="absolute inset-x-0 bottom-0 z-30 flex justify-center"
+      className="absolute inset-x-0 bottom-0 z-30 flex flex-col items-center"
       style={{ paddingBottom: 24, paddingInline: 16 }}
       initial={{ y: 140, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 140, opacity: 0 }}
       transition={{ type: 'spring', stiffness: 340, damping: 32 }}
     >
-      <div style={{ width: '100%', maxWidth: 398 }}>
+      <div className="flex items-center justify-center" style={{ width: '100%', maxWidth: 478, gap: 8 }}>
+        {places.length > 1 && (
+          <motion.button
+            onClick={() => go(-1)}
+            disabled={index === 0}
+            aria-label="Lugar anterior"
+            style={{
+              flexShrink: 0,
+              width: 40, height: 40, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.95)',
+              border: `1.5px solid ${color}35`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: `0 8px 24px rgba(20,50,30,0.18)`,
+              cursor: index === 0 ? 'default' : 'pointer',
+              opacity: index === 0 ? 0.35 : 1,
+            }}
+            whileTap={index === 0 ? {} : { scale: 0.85 }}
+            whileHover={index === 0 ? {} : { scale: 1.06, background: '#ffffff' }}
+          >
+            <ChevronLeft size={20} color={color} strokeWidth={2.5} />
+          </motion.button>
+        )}
+        <div style={{ width: '100%', maxWidth: 398, minWidth: 0 }}>
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={place.id}
@@ -85,13 +107,13 @@ export function PlaceStack({ places, initialPlaceId, onClose, onPlaceChange }: P
               x: dragX,
               opacity: cardOpacity,
               rotate: cardRotate,
-              background: 'rgba(8,22,14,0.92)',
+              background: 'linear-gradient(165deg, #ffffff 0%, #f4faf6 100%)',
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',
-              border: `1px solid ${color}30`,
+              border: `1px solid ${color}25`,
               borderRadius: 26,
               overflow: 'hidden',
-              boxShadow: `0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05), 0 8px 24px ${color}22`,
+              boxShadow: `0 24px 64px rgba(20,60,40,0.16), 0 0 0 1px rgba(255,255,255,0.6), 0 8px 24px ${color}18`,
               cursor: places.length > 1 ? 'grab' : 'default',
             }}
           >
@@ -132,7 +154,7 @@ export function PlaceStack({ places, initialPlaceId, onClose, onPlaceChange }: P
                       {CATEGORY_LABELS[place.category] ?? place.category}
                     </p>
                     <h2 style={{
-                      fontSize: 17, fontWeight: 800, color: 'white',
+                      fontSize: 17, fontWeight: 800, color: '#16281c',
                       letterSpacing: '-0.02em', lineHeight: 1.2,
                       whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                     }}>
@@ -145,20 +167,20 @@ export function PlaceStack({ places, initialPlaceId, onClose, onPlaceChange }: P
                   onClick={onClose}
                   style={{
                     width: 32, height: 32, borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.07)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: `${color}0d`,
+                    border: `1px solid ${color}25`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0, marginLeft: 10, cursor: 'pointer',
                   }}
                   whileTap={{ scale: 0.82 }}
-                  whileHover={{ background: 'rgba(255,255,255,0.13)' }}
+                  whileHover={{ background: `${color}1a` }}
                 >
-                  <X size={13} color="rgba(255,255,255,0.55)" strokeWidth={2.5} />
+                  <X size={13} color={color} strokeWidth={2.5} />
                 </motion.button>
               </div>
 
               {/* Divider */}
-              <div style={{ height: 1, background: `linear-gradient(90deg, ${color}40, rgba(255,255,255,0.04))`, marginBottom: 16 }} />
+              <div style={{ height: 1, background: `linear-gradient(90deg, ${color}35, rgba(20,60,40,0.05))`, marginBottom: 16 }} />
 
               {/* CTA */}
               <motion.a
@@ -188,7 +210,7 @@ export function PlaceStack({ places, initialPlaceId, onClose, onPlaceChange }: P
                     <motion.button
                       key={i}
                       onClick={() => { setDirection(i > index ? 1 : -1); setIndex(i); onPlaceChange(places[i].id); }}
-                      style={{ borderRadius: 4, backgroundColor: i === index ? color : 'rgba(255,255,255,0.18)', cursor: 'pointer', border: 'none' }}
+                      style={{ borderRadius: 4, backgroundColor: i === index ? color : `${color}30`, cursor: 'pointer', border: 'none' }}
                       animate={{ width: i === index ? 20 : 6, height: 6, opacity: i === index ? 1 : 0.4 }}
                       transition={{ type: 'spring', stiffness: 500, damping: 32 }}
                       whileHover={{ opacity: 0.8 }}
@@ -199,13 +221,47 @@ export function PlaceStack({ places, initialPlaceId, onClose, onPlaceChange }: P
             </div>
           </motion.div>
         </AnimatePresence>
-
+        </div>
         {places.length > 1 && (
-          <p style={{ textAlign: 'center', fontSize: 10, color: 'rgba(255,255,255,0.25)', marginTop: 8, fontWeight: 500 }}>
-            Desliza para navegar
-          </p>
+          <motion.button
+            onClick={() => go(1)}
+            disabled={index === places.length - 1}
+            aria-label="Siguiente lugar"
+            style={{
+              flexShrink: 0,
+              width: 40, height: 40, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.95)',
+              border: `1.5px solid ${color}35`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: `0 8px 24px rgba(20,50,30,0.18)`,
+              cursor: index === places.length - 1 ? 'default' : 'pointer',
+              opacity: index === places.length - 1 ? 0.35 : 1,
+            }}
+            whileTap={index === places.length - 1 ? {} : { scale: 0.85 }}
+            whileHover={index === places.length - 1 ? {} : { scale: 1.06, background: '#ffffff' }}
+          >
+            <ChevronRight size={20} color={color} strokeWidth={2.5} />
+          </motion.button>
         )}
       </div>
+
+      {places.length > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 10 }}>
+          <p style={{
+            display: 'inline-flex', alignItems: 'center', gap: 5,
+            fontSize: 10, fontWeight: 600, color: '#3d6b4d',
+            background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            border: `1px solid ${color}25`,
+            borderRadius: 20, padding: '5px 12px',
+            boxShadow: '0 4px 14px rgba(20,60,40,0.12)',
+          }}>
+            <ChevronLeft size={11} strokeWidth={2.5} />
+            Desliza o usa las flechas
+            <ChevronRight size={11} strokeWidth={2.5} />
+          </p>
+        </div>
+      )}
     </motion.div>
   );
 }

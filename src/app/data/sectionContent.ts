@@ -2,16 +2,22 @@ export interface SectionCard {
   id: string;
   title: string;
   subtitle: string;
-  description: string;
+  description?: string;
   image: string;
   tags: string[];
   badge?: string;
+  group?: string;
   meta?: {
     date?: string;
     hours?: string;
     price?: string;
     location?: string;
   };
+}
+
+export interface SectionGroup {
+  id: string;
+  label: string;
 }
 
 export interface SectionData {
@@ -25,6 +31,7 @@ export interface SectionData {
   stats: { label: string; value: string }[];
   cards: SectionCard[];
   showHero?: boolean;
+  groups?: SectionGroup[];
 }
 
 const BASE = 'https://images.unsplash.com/photo-';
@@ -36,26 +43,56 @@ export const SECTION_DATA: Record<string, SectionData> = {
     id: 'events',
     title: 'Eventos',
     emoji: '🎭',
+    showHero: false,
     tagline: 'El Calendario Vivo\nde Moraleja',
-    description:
-      'A city that never stops celebrating. From ancient holy processions to modern music festivals, every week brings something unforgettable.',
+    description: '',
     heroImage: img('1764267368768-3442cbf2a5c2'),
     color: '#d97706',
-    stats: [
-      { label: 'Eventos este mes', value: '24+' },
-      { label: 'Festivales al año', value: '60+' },
-      { label: 'Valoración media', value: '4.8★' },
+    stats: [],
+    groups: [
+      { id: 'general', label: 'Generales' },
+      { id: 'peñas', label: 'Eventos de Peñas' },
     ],
     cards: [
       {
-        id: 'ev1',
-        title: 'Ejemplo de Evento',
-        subtitle: 'Aquí irá el nombre del evento · Fecha',
-        description: 'Aquí irá la descripción del evento cuando esté disponible.',
-        image: img('1764267368768-3442cbf2a5c2'),
-        tags: ['Ejemplo'],
-        badge: 'Próximamente',
-        meta: { date: 'Por confirmar', location: 'Moraleja' },
+        id: 'ev-peña-lcl-sunset',
+        title: 'LCL Sunset',
+        subtitle: 'Peña El Local · Domingo 12 · 18:00h',
+        image: '/PeñaElLocalDomingoEvento.jpg',
+        tags: ['Peña El Local'],
+        badge: 'Domingo 12 · 18:00h',
+        group: 'peñas',
+        meta: { date: 'Domingo 12 · 18:00h', location: 'C/ Capitán Domínguez, 14' },
+      },
+      {
+        id: 'ev-peña-lcl-afterparty',
+        title: 'LCL After Party',
+        subtitle: 'Peña El Local · Domingo 12 · 01:00h',
+        image: '/PeñaElLocalDomingoNocheEvento.jpg',
+        tags: ['Peña El Local'],
+        badge: 'Domingo 12 · 01:00h',
+        group: 'peñas',
+        meta: { date: 'Domingo 12 · 01:00h', location: 'Moraleja' },
+      },
+      {
+        id: 'ev-peña-preocupaos-parade',
+        title: 'Preocupaos Parade 2026',
+        subtitle: 'Peña Los Preocupaos · 11 de Julio · 19:30h',
+        image: '/PeñaPreocupadosEventos.jpg',
+        tags: ['Peña Los Preocupaos'],
+        badge: '11 Jul · 19:30h',
+        group: 'peñas',
+        meta: { date: '11 de Julio · 19:30h', location: 'Plaza de España (Ayuntamiento)' },
+      },
+      {
+        id: 'ev-peña-mini-compes',
+        title: 'Mini Compes',
+        subtitle: 'Peña Los Compes · Domingo 12 · 01:00h',
+        image: '/peñaCompesEvento.jpg',
+        tags: ['Peña Los Compes'],
+        badge: 'Domingo 12 · 01:00h',
+        group: 'peñas',
+        meta: { date: 'Domingo 12 · 01:00h', location: 'Moraleja' },
       },
     ],
   },

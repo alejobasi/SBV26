@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Map, ChevronRight, Lock, LayoutGrid, Beef, CalendarDays } from 'lucide-react';
+import { X, Map, ChevronRight, LayoutGrid, Beef, CalendarDays } from 'lucide-react';
 import { CATEGORIES, CATEGORY_COLORS, CATEGORY_EMOJIS, CATEGORY_LABELS } from './data/places';
 import { places } from './data/places';
 
@@ -122,9 +122,7 @@ export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Prop
             {/* ── Category list ── */}
             <div className="flex-1 overflow-y-auto" style={{ paddingLeft: 12, paddingRight: 12 }}>
               {CATEGORIES.map((cat, i) => {
-                const isDisabled = cat === 'Events';
-                const isActive =
-                  !isDisabled && (cat === 'All' ? currentSection === null : currentSection === cat);
+                const isActive = cat === 'All' ? currentSection === null : currentSection === cat;
                 const color = CATEGORY_COLORS[cat];
                 const count = countByCategory(cat);
                 const icon = CATEGORY_ICONS[cat];
@@ -132,7 +130,7 @@ export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Prop
                 return (
                   <motion.button
                     key={cat}
-                    onClick={() => !isDisabled && handleSelect(cat)}
+                    onClick={() => handleSelect(cat)}
                     className="w-full flex items-center gap-3 relative"
                     style={{
                       paddingLeft: 14,
@@ -143,28 +141,25 @@ export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Prop
                       marginBottom: 4,
                       backgroundColor: isActive ? `${color}14` : 'transparent',
                       border: isActive ? `1.5px solid ${color}30` : '1.5px solid transparent',
-                      opacity: isDisabled ? 0.55 : 1,
-                      cursor: isDisabled ? 'default' : 'pointer',
+                      cursor: 'pointer',
                       overflow: 'hidden',
                     }}
                     initial={{ x: -28, opacity: 0 }}
-                    animate={{ x: 0, opacity: isDisabled ? 0.55 : 1 }}
+                    animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: i * 0.055, duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-                    whileTap={isDisabled ? {} : { scale: 0.96, backgroundColor: `${color}20` }}
+                    whileTap={{ scale: 0.96, backgroundColor: `${color}20` }}
                   >
                     {/* Ripple on tap */}
-                    {!isDisabled && (
-                      <motion.div
-                        style={{
-                          position: 'absolute', inset: 0, borderRadius: 20,
-                          background: `radial-gradient(circle at 50% 50%, ${color}25 0%, transparent 70%)`,
-                          pointerEvents: 'none',
-                        }}
-                        initial={{ opacity: 0 }}
-                        whileTap={{ opacity: [0, 1, 0] }}
-                        transition={{ duration: 0.4 }}
-                      />
-                    )}
+                    <motion.div
+                      style={{
+                        position: 'absolute', inset: 0, borderRadius: 20,
+                        background: `radial-gradient(circle at 50% 50%, ${color}25 0%, transparent 70%)`,
+                        pointerEvents: 'none',
+                      }}
+                      initial={{ opacity: 0 }}
+                      whileTap={{ opacity: [0, 1, 0] }}
+                      transition={{ duration: 0.4 }}
+                    />
 
                     {/* Active left bar */}
                     {isActive && (
@@ -206,33 +201,26 @@ export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Prop
                       </div>
                       <div style={{
                         fontSize: 11,
-                        color: isDisabled ? '#d97706' : isActive ? `${color}99` : '#b0bfb8',
+                        color: isActive ? `${color}99` : '#b0bfb8',
                         marginTop: 2,
-                        fontWeight: isDisabled ? 700 : 400,
-                        letterSpacing: isDisabled ? '0.02em' : 0,
+                        fontWeight: 400,
                       }}>
-                        {isDisabled
-                          ? '🔒 Muy pronto'
-                          : cat === 'All'
+                        {cat === 'All'
                           ? 'Todos los lugares'
                           : `${count} ${count === 1 ? 'lugar' : 'lugares'}`}
                       </div>
                     </div>
 
-                    {/* Chevron / lock */}
+                    {/* Chevron */}
                     <motion.div
                       className="flex items-center justify-center rounded-xl flex-shrink-0"
                       style={{
                         width: 28, height: 28,
-                        backgroundColor: isDisabled ? '#fef3c720' : isActive ? `${color}20` : '#1a2e250a',
+                        backgroundColor: isActive ? `${color}20` : '#1a2e250a',
                       }}
                       animate={{ x: isActive ? 0 : 0 }}
                     >
-                      {isDisabled ? (
-                        <Lock size={13} color="#d97706" strokeWidth={2.5} />
-                      ) : (
-                        <ChevronRight size={14} color={isActive ? color : '#c0cdc6'} strokeWidth={2.5} />
-                      )}
+                      <ChevronRight size={14} color={isActive ? color : '#c0cdc6'} strokeWidth={2.5} />
                     </motion.div>
                   </motion.button>
                 );
