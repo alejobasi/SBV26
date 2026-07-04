@@ -1,8 +1,10 @@
 import type { ReactNode } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Map, ChevronRight, LayoutGrid, Beef, CalendarDays } from 'lucide-react';
+import { X, Map, ChevronRight, LayoutGrid, Beef, CalendarDays, LifeBuoy } from 'lucide-react';
 import { CATEGORIES, CATEGORY_COLORS, CATEGORY_EMOJIS, CATEGORY_LABELS } from './data/places';
 import { places } from './data/places';
+import { HelpModal } from './HelpModal';
 
 interface Props {
   isOpen: boolean;
@@ -18,6 +20,8 @@ const CATEGORY_ICONS: Record<string, ReactNode> = {
 };
 
 export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Props) {
+  const [showHelp, setShowHelp] = useState(false);
+
   const countByCategory = (cat: string) =>
     cat === 'All' ? places.length : places.filter((p) => p.category === cat).length;
 
@@ -26,7 +30,13 @@ export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Prop
     setTimeout(() => onSectionOpen(cat === 'All' ? null : cat), 260);
   };
 
+  const handleOpenHelp = () => {
+    onClose();
+    setTimeout(() => setShowHelp(true), 260);
+  };
+
   return (
+    <>
     <AnimatePresence>
       {isOpen && (
         <>
@@ -227,18 +237,53 @@ export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Prop
               })}
             </div>
 
-            {/* ── Footer branding ── */}
-            <div style={{ borderTop: '1px solid #edeae2', padding: '16px 24px 32px' }}>
-              <p style={{ fontSize: 10, color: '#c0cdc6', letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>
+            {/* ── Footer: Ayuda + branding ── */}
+            <div style={{ borderTop: '1px solid #edeae2', padding: '14px 16px 28px' }}>
+              <motion.button
+                onClick={handleOpenHelp}
+                className="w-full flex items-center gap-3"
+                style={{
+                  paddingLeft: 14,
+                  paddingRight: 12,
+                  paddingTop: 11,
+                  paddingBottom: 11,
+                  borderRadius: 18,
+                  marginBottom: 12,
+                  backgroundColor: '#4a7c5912',
+                  border: '1.5px solid #4a7c5925',
+                  cursor: 'pointer',
+                }}
+                whileTap={{ scale: 0.97, backgroundColor: '#4a7c5920' }}
+              >
+                <div
+                  className="flex items-center justify-center rounded-xl flex-shrink-0"
+                  style={{ width: 34, height: 34, backgroundColor: '#4a7c5920' }}
+                >
+                  <LifeBuoy size={16} color="#4a7c59" strokeWidth={2} />
+                </div>
+                <div className="flex-1 text-left">
+                  <div style={{ fontSize: 13.5, fontWeight: 700, color: '#1a2e25' }}>Ayuda</div>
+                  <div style={{ fontSize: 10.5, color: '#9aada3' }}>Sugerencias e incidencias</div>
+                </div>
+                <ChevronRight size={14} color="#c0cdc6" strokeWidth={2.5} />
+              </motion.button>
+
+              <p style={{ fontSize: 10, color: '#c0cdc6', letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600, paddingLeft: 8 }}>
                 Fiestas · 10–14 Jul 2026
               </p>
-              <p style={{ fontSize: 12, color: '#9aada3', marginTop: 3 }}>
+              <p style={{ fontSize: 12, color: '#9aada3', marginTop: 3, paddingLeft: 8 }}>
                 San Buenaventura · Moraleja
+              </p>
+
+              <p style={{ fontSize: 9.5, color: '#c0cdc6', marginTop: 10, paddingLeft: 8, fontWeight: 500 }}>
+                Aplicación desarrollada por Alejo Basilio Alfonso
               </p>
             </div>
           </motion.div>
         </>
       )}
     </AnimatePresence>
+    <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} />
+    </>
   );
 }

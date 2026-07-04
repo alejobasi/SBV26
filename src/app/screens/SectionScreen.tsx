@@ -326,13 +326,16 @@ function ContentCard({
   card,
   color,
   isVisible,
+  uiVisible,
+  onToggleUi,
 }: {
   card: SectionCard;
   color: string;
   isVisible: boolean;
+  uiVisible: boolean;
+  onToggleUi: () => void;
 }) {
   const [showShare, setShowShare] = useState(false);
-  const [uiVisible, setUiVisible] = useState(true);
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -351,7 +354,7 @@ function ContentCard({
       <div
         className="relative w-full flex-shrink-0 overflow-hidden"
         style={{ height: '100%', scrollSnapAlign: 'start' }}
-        onClick={() => setUiVisible((v) => !v)}
+        onClick={onToggleUi}
       >
         {/* Hero image */}
         <div className="absolute inset-0">
@@ -578,6 +581,7 @@ export function SectionScreen({ section, onBack }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [visibleCard, setVisibleCard] = useState(0);
   const [activeGroup, setActiveGroup] = useState<string>(data?.groups?.[0]?.id ?? '');
+  const [uiVisible, setUiVisible] = useState(true);
 
   const cards = data
     ? data.groups
@@ -599,6 +603,7 @@ export function SectionScreen({ section, onBack }: Props) {
   const handleGroupChange = (id: string) => {
     setActiveGroup(id);
     setVisibleCard(0);
+    setUiVisible(true);
     scrollRef.current?.scrollTo({ top: 0 });
   };
 
@@ -615,9 +620,18 @@ export function SectionScreen({ section, onBack }: Props) {
           paddingBottom: 4,
           paddingLeft: 16,
           paddingRight: 16,
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.28) 55%, transparent 100%)',
         } as React.CSSProperties}
       >
+        {/* Header gradient backdrop */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.28) 55%, transparent 100%)',
+          }}
+          animate={{ opacity: uiVisible ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        />
+
         {/* Back button */}
         <motion.button
           onClick={onBack}
@@ -629,6 +643,7 @@ export function SectionScreen({ section, onBack }: Props) {
             backgroundColor: 'rgba(255,255,255,0.13)',
             border: '1px solid rgba(255,255,255,0.18)',
             flexShrink: 0,
+            position: 'relative',
           }}
           whileTap={{ scale: 0.92 }}
           initial={{ x: -16, opacity: 0 }}
@@ -640,8 +655,9 @@ export function SectionScreen({ section, onBack }: Props) {
 
         {/* Section title */}
         <motion.div
+          style={{ position: 'relative' }}
           initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={{ opacity: uiVisible ? 1 : 0, y: 0 }}
           transition={{ delay: 0.15 }}
         >
           <span
@@ -659,8 +675,9 @@ export function SectionScreen({ section, onBack }: Props) {
         {/* Progress dots */}
         <motion.div
           className="flex items-center gap-1.5"
+          style={{ position: 'relative' }}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={{ opacity: uiVisible ? 1 : 0 }}
           transition={{ delay: 0.2 }}
         >
           {Array.from({ length: totalCards }).map((_, i) => (
@@ -680,9 +697,11 @@ export function SectionScreen({ section, onBack }: Props) {
 
       {/* ── Group tabs ── */}
       {data.groups && (
-        <div
+        <motion.div
           className="absolute inset-x-0 z-10 flex items-center justify-center gap-2"
-          style={{ top: 104, paddingInline: 16 }}
+          style={{ top: 104, paddingInline: 16, pointerEvents: uiVisible ? 'auto' : 'none' }}
+          animate={{ opacity: uiVisible ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
         >
           {data.groups.map((group) => {
             const isActive = group.id === activeGroup;
@@ -713,7 +732,7 @@ export function SectionScreen({ section, onBack }: Props) {
               </motion.button>
             );
           })}
-        </div>
+        </motion.div>
       )}
 
       {/* ── TikTok snap feed ── */}
@@ -738,6 +757,8 @@ export function SectionScreen({ section, onBack }: Props) {
             card={card}
             color={data.color}
             isVisible={visibleCard === (showHero ? i + 1 : i)}
+            uiVisible={uiVisible}
+            onToggleUi={() => setUiVisible((v) => !v)}
           />
         ))}
       </div>
