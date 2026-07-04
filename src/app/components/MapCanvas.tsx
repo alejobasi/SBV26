@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Circle, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Circle, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { motion } from 'motion/react';
 import { useEffect, useState, useCallback } from 'react';
@@ -66,6 +66,65 @@ const userDotIcon = L.divIcon({
   className: '',
 });
 
+const recorridoEncierro: [number, number][] = [
+  [40.063947, -6.662324],
+  [40.064089, -6.662714],
+  [40.064516, -6.662312],
+  [40.064986, -6.662001],
+  [40.066202, -6.661579],
+  [40.06663, -6.66135],
+  [40.066725, -6.661292],
+  [40.067013, -6.661253],
+  [40.067226, -6.661068],
+  [40.067373, -6.66097],
+  [40.067604, -6.660746],
+  [40.067747, -6.66052],
+  [40.067924, -6.660268],
+  [40.068133, -6.660097],
+  [40.068394, -6.659994],
+  [40.068626, -6.659952],
+  [40.068634, -6.660236],
+  [40.068675, -6.66036],
+];
+
+const recorridoToro: [number, number][] = [
+  [40.068614, -6.660431],
+  [40.068732, -6.660414],
+  [40.06882, -6.660574],
+  [40.068651, -6.660751],
+  [40.068512, -6.661045],
+  [40.068241, -6.661673],
+  [40.068188, -6.661893],
+  [40.068256, -6.661577],
+  [40.067986, -6.661314],
+  [40.068081, -6.661147],
+  [40.068105, -6.660987],
+  [40.068295, -6.660986],
+  [40.068453, -6.661164],
+  [40.068295, -6.660986],
+  [40.068105, -6.660987],
+  [40.068081, -6.661147],
+  [40.067986, -6.661314],
+  [40.06763, -6.661324],
+  [40.06733, -6.661324],
+  [40.066984, -6.661282],
+  [40.067103, -6.661143],
+  [40.067359, -6.660981],
+  [40.067591, -6.660756],
+  [40.067723, -6.660585],
+  [40.068024, -6.660949],
+  [40.068105, -6.660987],
+  [40.068024, -6.660949],
+  [40.067723, -6.660585],
+  [40.067774, -6.660455],
+  [40.067961, -6.660215],
+  [40.068196, -6.660053],
+  [40.068397, -6.659983],
+  [40.068652, -6.659935],
+  [40.068638, -6.660268],
+  [40.068701, -6.660385],
+];
+
 export function MapCanvas({ places, selectedPlaceId, onMarkerClick, showLocationButton = true }: Props) {
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const [locating, setLocating] = useState(false);
@@ -128,6 +187,30 @@ export function MapCanvas({ places, selectedPlaceId, onMarkerClick, showLocation
         />
 
         <MapUpdater selectedPlaceId={selectedPlaceId} places={places} flyTo={flyTo} />
+
+        {/* Recorrido del encierro */}
+        <Polyline
+          positions={recorridoEncierro}
+          pathOptions={{
+            color: '#f9a826',
+            weight: 4,
+            opacity: 0.55,
+            dashArray: '1, 10',
+            lineCap: 'round',
+          }}
+        />
+
+        {/* Recorrido del toro */}
+        <Polyline
+          positions={recorridoToro}
+          pathOptions={{
+            color: '#e0575f',
+            weight: 4,
+            opacity: 0.55,
+            dashArray: '1, 10',
+            lineCap: 'round',
+          }}
+        />
 
         {places.map((place) => {
           const isSelected = place.id === selectedPlaceId;

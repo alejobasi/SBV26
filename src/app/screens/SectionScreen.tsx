@@ -612,34 +612,30 @@ export function SectionScreen({ section, onBack }: Props) {
         className="absolute top-0 inset-x-0 z-10 flex items-center justify-between"
         style={{
           paddingTop: 52,
-          paddingBottom: 14,
+          paddingBottom: 4,
           paddingLeft: 16,
           paddingRight: 16,
-          background: 'rgba(0,0,0,0.38)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.28) 55%, transparent 100%)',
         } as React.CSSProperties}
       >
         {/* Back button */}
         <motion.button
           onClick={onBack}
-          className="flex items-center gap-1.5"
+          aria-label="Volver a Moraleja"
+          className="flex items-center justify-center"
           style={{
-            paddingTop: 8,
-            paddingBottom: 8,
-            paddingLeft: 12,
-            paddingRight: 16,
-            borderRadius: 50,
+            width: 36, height: 36,
+            borderRadius: '50%',
             backgroundColor: 'rgba(255,255,255,0.13)',
             border: '1px solid rgba(255,255,255,0.18)',
+            flexShrink: 0,
           }}
           whileTap={{ scale: 0.92 }}
           initial={{ x: -16, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.1 }}
         >
-          <ArrowLeft size={14} color="white" strokeWidth={2.5} />
-          <span style={{ fontSize: 13, color: 'white', fontWeight: 500 }}>Moraleja</span>
+          <ArrowLeft size={16} color="white" strokeWidth={2.5} />
         </motion.button>
 
         {/* Section title */}
