@@ -4,6 +4,8 @@ export interface SectionCard {
   subtitle: string;
   description?: string;
   image: string;
+  /** 'contain' shows the full image letterboxed (use for flyers/posters with important edge text). Defaults to 'cover'. */
+  fit?: 'cover' | 'contain';
   tags: string[];
   badge?: string;
   group?: string;
@@ -46,7 +48,7 @@ export const SECTION_DATA: Record<string, SectionData> = {
     showHero: false,
     tagline: 'El Calendario Vivo\nde Moraleja',
     description: '',
-    heroImage: img('1764267368768-3442cbf2a5c2'),
+    heroImage: '/San-buenaventura-moraleja-90_230711104144.jpg',
     color: '#d97706',
     stats: [],
     groups: [
@@ -54,6 +56,87 @@ export const SECTION_DATA: Record<string, SectionData> = {
       { id: 'peñas', label: 'Eventos de Peñas' },
     ],
     cards: [
+      {
+        id: 'ev-grand-prix',
+        title: 'Grand Prix',
+        subtitle: 'Con la participación de las peñas de la localidad · Jueves 9 · 22:00h',
+        description: 'Las peñas de la localidad se divertirán con juegos hinchables y vaquillas.',
+        image: '/San-buenaventura-moraleja-90_230711104144.jpg',
+        tags: ['Peñas de Moraleja', 'Juegos hinchables', 'Vaquillas'],
+        badge: 'Jueves 9 · 22:00h',
+        group: 'general',
+        meta: { date: 'Jueves 9 de Julio · 22:00h', location: 'Plaza de Toros (centro de la localidad)' },
+      },
+      {
+        id: 'ev-verbena-syra',
+        title: 'Verbena Popular · Orquesta Syra',
+        subtitle: 'A cargo de la Orquesta Syra · Viernes 10 · 23:59h',
+        image: '/San-buenaventura-moraleja-90_230711104144.jpg',
+        tags: ['Orquesta Syra', 'Verbena'],
+        badge: 'Viernes 10 · 23:59h',
+        group: 'general',
+        meta: { date: 'Viernes 10 · 23:59h', location: 'Plaza de La Encomienda' },
+      },
+      {
+        id: 'ev-festival-djs',
+        title: 'Festival DJs San Buenaventura 2026',
+        subtitle: 'Nico Guerra, Carlos Chaparro y Les Castizos · Sábado 11 · 23:59h',
+        image: '/flyer_san_buenaventura_2026_firmado.png',
+        fit: 'contain',
+        tags: ['Nico Guerra', 'Carlos Chaparro', 'Les Castizos'],
+        group: 'general',
+        meta: { date: 'Sábado 11 · 23:59h', location: 'Plaza de La Encomienda' },
+      },
+      {
+        id: 'ev-verbena-vulkano',
+        title: 'Verbena Popular · Orquesta Vulkano',
+        subtitle: 'A cargo de la Orquesta Vulkano · Domingo 12 · 23:59h',
+        image: '/San-buenaventura-moraleja-90_230711104144.jpg',
+        tags: ['Orquesta Vulkano', 'Verbena'],
+        badge: 'Domingo 12 · 23:59h',
+        group: 'general',
+        meta: { date: 'Domingo 12 · 23:59h', location: 'Plaza de La Encomienda' },
+      },
+      {
+        id: 'ev-tardeo-dj-pulpo',
+        title: 'Tardeo · DJ El Pulpo',
+        subtitle: 'Lunes 13 · De 15:30 a 18:30h',
+        image: '/San-buenaventura-moraleja-90_230711104144.jpg',
+        tags: ['DJ El Pulpo', 'Tardeo'],
+        badge: 'Lunes 13 · 15:30–18:30h',
+        group: 'general',
+        meta: { date: 'Lunes 13 · De 15:30 a 18:30h', location: 'Plaza Colón' },
+      },
+      {
+        id: 'ev-concierto-templo-morbo',
+        title: 'Concierto · El Templo del Morbo',
+        subtitle: 'Aportado por la Comisión de Festejos SBV 2026 · Lunes 13 · 23:59h',
+        image: '/San-buenaventura-moraleja-90_230711104144.jpg',
+        tags: ['El Templo del Morbo', 'Comisión de Festejos SBV 2026'],
+        badge: 'Lunes 13 · 23:59h',
+        group: 'general',
+        meta: { date: 'Lunes 13 · 23:59h', location: 'Plaza de La Encomienda' },
+      },
+      {
+        id: 'ev-tardeo-paco-santos',
+        title: 'Tardeo · Paco Santos Music',
+        subtitle: 'Martes 14 · De 15:30 a 18:30h',
+        image: '/San-buenaventura-moraleja-90_230711104144.jpg',
+        tags: ['Paco Santos Music', 'Tardeo'],
+        badge: 'Martes 14 · 15:30–18:30h',
+        group: 'general',
+        meta: { date: 'Martes 14 · De 15:30 a 18:30h', location: 'C/ Gabriel y Galán, Plaza de España (lateral Ayuntamiento)' },
+      },
+      {
+        id: 'ev-charanga-clave-de-sol',
+        title: 'Charanga "Clave de Sol"',
+        subtitle: 'Todas las madrugadas · 04:00h',
+        image: '/San-buenaventura-moraleja-90_230711104144.jpg',
+        tags: ['Charanga', 'Clave de Sol'],
+        badge: 'Todas las madrugadas · 04:00h',
+        group: 'general',
+        meta: { date: 'Todas las madrugadas · 04:00h', location: 'Plazuela Victoriano Revelo (junto al Estanco)' },
+      },
       {
         id: 'ev-peña-lcl-sunset',
         title: 'LCL Sunset',

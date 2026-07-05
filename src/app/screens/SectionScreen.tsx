@@ -358,15 +358,37 @@ function ContentCard({
       >
         {/* Hero image */}
         <div className="absolute inset-0">
-          <img
-            src={card.image}
-            alt={card.title}
-            className="w-full h-full object-cover"
-            style={{
-              transform: isVisible ? 'scale(1.0)' : 'scale(1.06)',
-              transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)',
-            }}
-          />
+          {card.fit === 'contain' ? (
+            <>
+              {/* Blurred backdrop fills the letterboxed space on any screen ratio */}
+              <img
+                src={card.image}
+                alt=""
+                aria-hidden="true"
+                className="w-full h-full object-cover"
+                style={{ filter: 'blur(40px) brightness(0.55) saturate(1.2)', transform: 'scale(1.15)' }}
+              />
+              <img
+                src={card.image}
+                alt={card.title}
+                className="absolute inset-0 w-full h-full object-contain"
+                style={{
+                  transform: isVisible ? 'scale(1.0)' : 'scale(1.03)',
+                  transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                }}
+              />
+            </>
+          ) : (
+            <img
+              src={card.image}
+              alt={card.title}
+              className="w-full h-full object-cover"
+              style={{
+                transform: isVisible ? 'scale(1.0)' : 'scale(1.06)',
+                transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
+            />
+          )}
         </div>
 
         {/* Top vignette */}

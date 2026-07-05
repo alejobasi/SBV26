@@ -75,7 +75,7 @@ export function PlaceStack({ places, initialPlaceId, onClose, onPlaceChange }: P
             aria-label="Lugar anterior"
             style={{
               flexShrink: 0,
-              width: 40, height: 40, borderRadius: '50%',
+              width: 'clamp(32px, 9vw, 40px)', height: 'clamp(32px, 9vw, 40px)', borderRadius: '50%',
               background: 'rgba(255,255,255,0.95)',
               border: `1.5px solid ${color}35`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -124,40 +124,45 @@ export function PlaceStack({ places, initialPlaceId, onClose, onPlaceChange }: P
               transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
             />
 
-            <div style={{ padding: '18px 20px 22px' }}>
+            <div style={{ padding: '18px clamp(14px, 4.5vw, 20px) 22px' }}>
               {/* Header */}
               <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
                 <div className="flex items-center gap-3" style={{ flex: 1, minWidth: 0 }}>
                   <motion.div
                     style={{
-                      width: 44, height: 44,
+                      width: 'clamp(38px, 11vw, 44px)', height: 'clamp(38px, 11vw, 44px)',
                       borderRadius: 14,
                       background: `linear-gradient(135deg, ${color}30, ${color}15)`,
                       border: `1.5px solid ${color}40`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      flexShrink: 0, fontSize: 20,
+                      flexShrink: 0, fontSize: 'clamp(17px, 5vw, 20px)',
                       boxShadow: `0 4px 16px ${color}30`,
                       overflow: 'hidden',
                     }}
                     whileHover={{ scale: 1.05 }}
                   >
                     {place.category === 'Nightlife'
-                      ? <img src="/SBV_logo_redondo.png" style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 8 }} />
+                      ? <img src="/SBV_logo_redondo.png" style={{ width: '82%', height: '82%', objectFit: 'cover', borderRadius: 8 }} />
                       : emoji}
                   </motion.div>
 
-                  <div style={{ minWidth: 0 }}>
+                  <div style={{ minWidth: 0, flex: 1 }}>
                     <p style={{
                       fontSize: 9, fontWeight: 700, color: color,
                       letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 3,
+                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                     }}>
                       {CATEGORY_LABELS[place.category] ?? place.category}
                     </p>
                     <h2 style={{
-                      fontSize: 17, fontWeight: 800, color: '#16281c',
-                      letterSpacing: '-0.02em', lineHeight: 1.2,
-                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                    }}>
+                      fontSize: 'clamp(14px, 4.3vw, 17px)', fontWeight: 800, color: '#16281c',
+                      letterSpacing: '-0.02em', lineHeight: 1.25,
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      wordBreak: 'break-word',
+                    } as React.CSSProperties}>
                       {place.name}
                     </h2>
                   </div>
@@ -170,7 +175,7 @@ export function PlaceStack({ places, initialPlaceId, onClose, onPlaceChange }: P
                     background: `${color}0d`,
                     border: `1px solid ${color}25`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    flexShrink: 0, marginLeft: 10, cursor: 'pointer',
+                    flexShrink: 0, marginLeft: 8, alignSelf: 'flex-start', cursor: 'pointer',
                   }}
                   whileTap={{ scale: 0.82 }}
                   whileHover={{ background: `${color}1a` }}
@@ -229,7 +234,7 @@ export function PlaceStack({ places, initialPlaceId, onClose, onPlaceChange }: P
             aria-label="Siguiente lugar"
             style={{
               flexShrink: 0,
-              width: 40, height: 40, borderRadius: '50%',
+              width: 'clamp(32px, 9vw, 40px)', height: 'clamp(32px, 9vw, 40px)', borderRadius: '50%',
               background: 'rgba(255,255,255,0.95)',
               border: `1.5px solid ${color}35`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
