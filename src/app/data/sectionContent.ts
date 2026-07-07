@@ -70,6 +70,16 @@ export const SECTION_DATA: Record<string, SectionData> = {
         meta: { date: 'Jueves 9 de Julio · 22:00h', location: 'Plaza de Toros (centro de la localidad)' },
       },
       {
+        id: 'ev-chupinazo',
+        title: 'Chupinazo',
+        subtitle: 'Charanga "Clave de Sol" y DJ Carlos Chaparro · Viernes 10 · 18:00h',
+        image: '/San-buenaventura-moraleja-90_230711104144.jpg',
+        tags: ['Charanga Clave de Sol', 'DJ Carlos Chaparro', 'Chupinazo'],
+        badge: 'Viernes 10 · 18:00h',
+        group: 'general',
+        meta: { date: 'Viernes 10 de Julio · 18:00h', location: 'Desde la Fuente del Avispero hasta la Plaza de España' },
+      },
+      {
         id: 'ev-verbena-syra',
         title: 'Verbena Popular · Orquesta Syra',
         subtitle: 'A cargo de la Orquesta Syra · Viernes 10 · 23:59h',
