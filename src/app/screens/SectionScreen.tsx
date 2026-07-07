@@ -334,7 +334,8 @@ function ContentCard({
   isVisible: boolean;
   uiVisible: boolean;
   onToggleUi: () => void;
-}) {
+}
+) {
   const [showShare, setShowShare] = useState(false);
 
   const handleShare = async () => {
@@ -384,6 +385,7 @@ function ContentCard({
               alt={card.title}
               className="w-full h-full object-cover"
               style={{
+                objectPosition: card.objectPosition ?? 'center',
                 transform: isVisible ? 'scale(1.0)' : 'scale(1.06)',
                 transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)',
               }}

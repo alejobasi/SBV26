@@ -116,7 +116,7 @@ export default function App() {
           places={filteredPlaces}
           selectedPlaceId={selectedPlaceId}
           onMarkerClick={handleMarkerClick}
-          showLocationButton={!currentSection}
+          showLocationButton={!currentSection && !showSideNav}
         />
 
         {/* ── MAP OVERLAYS (only shown when on map) ── */}

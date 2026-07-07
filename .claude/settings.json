@@ -4,7 +4,9 @@
       "Bash(npx tsc *)",
       "Bash(npx --no-install tsc --noEmit -p .)",
       "Bash(npm run *)",
-      "Bash(npm uninstall *)"
+      "Bash(npm uninstall *)",
+      "Skill(run)",
+      "Skill(run:*)"
     ]
   }
 }

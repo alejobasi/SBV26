@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Map, ChevronRight, LayoutGrid, Beef, CalendarDays, LifeBuoy } from 'lucide-react';
+import { X, Map, ChevronRight, LayoutGrid, Beef, CalendarDays, LifeBuoy, Mail, Instagram, ExternalLink } from 'lucide-react';
 import { CATEGORIES, CATEGORY_COLORS, CATEGORY_EMOJIS, CATEGORY_LABELS } from './data/places';
 import { places } from './data/places';
 import { HelpModal } from './HelpModal';
@@ -19,8 +19,106 @@ const CATEGORY_ICONS: Record<string, ReactNode> = {
   Bullfighting: <Beef size={18} strokeWidth={2} />,
 };
 
+function ContactModal({ onClose }: { onClose: () => void }) {
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 z-[60] flex items-end justify-center"
+        style={{ backgroundColor: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(6px)' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+      >
+        <motion.div
+          className="w-full"
+          style={{
+            maxWidth: 430,
+            background: 'linear-gradient(160deg, #f7f5ef 0%, #fafaf7 100%)',
+            borderRadius: '24px 24px 0 0',
+            padding: '28px 24px',
+            paddingBottom: 'max(32px, env(safe-area-inset-bottom, 32px))',
+          }}
+          initial={{ y: '100%' }}
+          animate={{ y: 0 }}
+          exit={{ y: '100%' }}
+          transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Handle */}
+          <div style={{ width: 36, height: 4, borderRadius: 2, backgroundColor: '#d0cdc6', margin: '0 auto 20px' }} />
+
+          <div style={{ marginBottom: 20 }}>
+            <p style={{ fontSize: 11, color: '#9aada3', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 4 }}>
+              Desarrollado por
+            </p>
+            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#1a2e25', letterSpacing: '-0.02em' }}>
+              Alejo Basilio Alfonso
+            </h3>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <a
+              href="mailto:basilioalfonsoalejo@gmail.com"
+              style={{ textDecoration: 'none' }}
+            >
+              <motion.div
+                className="flex items-center gap-3"
+                style={{
+                  padding: '14px 16px',
+                  borderRadius: 16,
+                  backgroundColor: '#4a7c5912',
+                  border: '1.5px solid #4a7c5925',
+                }}
+                whileTap={{ scale: 0.97, backgroundColor: '#4a7c5920' }}
+              >
+                <div style={{ width: 38, height: 38, borderRadius: 12, backgroundColor: '#4a7c5920', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Mail size={18} color="#4a7c59" strokeWidth={2} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#1a2e25' }}>Correo electrónico</div>
+                  <div style={{ fontSize: 11, color: '#9aada3', marginTop: 1 }}>basilioalfonsoalejo@gmail.com</div>
+                </div>
+                <ExternalLink size={14} color="#c0cdc6" strokeWidth={2} />
+              </motion.div>
+            </a>
+
+            <a
+              href="https://www.instagram.com/alejobasi/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none' }}
+            >
+              <motion.div
+                className="flex items-center gap-3"
+                style={{
+                  padding: '14px 16px',
+                  borderRadius: 16,
+                  backgroundColor: '#e1306c12',
+                  border: '1.5px solid #e1306c25',
+                }}
+                whileTap={{ scale: 0.97, backgroundColor: '#e1306c20' }}
+              >
+                <div style={{ width: 38, height: 38, borderRadius: 12, background: 'linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Instagram size={18} color="white" strokeWidth={2} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#1a2e25' }}>Instagram</div>
+                  <div style={{ fontSize: 11, color: '#9aada3', marginTop: 1 }}>@alejobasi</div>
+                </div>
+                <ExternalLink size={14} color="#c0cdc6" strokeWidth={2} />
+              </motion.div>
+            </a>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Props) {
   const [showHelp, setShowHelp] = useState(false);
+  const [showContact, setShowContact] = useState(false);
 
   const handleSelect = (cat: string) => {
     onClose();
@@ -275,15 +373,35 @@ export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Prop
                 San Buenaventura · Moraleja
               </p>
 
-              <p style={{ fontSize: 9.5, color: '#c0cdc6', marginTop: 10, paddingLeft: 8, fontWeight: 500 }}>
-                Aplicación desarrollada por Alejo Basilio Alfonso
-              </p>
+              <motion.button
+                onClick={() => setShowContact(true)}
+                style={{
+                  marginTop: 10,
+                  paddingLeft: 8,
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  padding: '4px 8px',
+                  borderRadius: 8,
+                }}
+                whileTap={{ scale: 0.96 }}
+                whileHover={{ backgroundColor: '#4a7c5910' }}
+              >
+                <span style={{ fontSize: 9.5, color: '#4a7c59', fontWeight: 700, textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: 3 }}>
+                  Desarrollado por Alejo Basilio Alfonso
+                </span>
+                <ExternalLink size={9} color="#4a7c59" strokeWidth={2.5} />
+              </motion.button>
             </div>
           </motion.div>
         </>
       )}
     </AnimatePresence>
     <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} />
+    {showContact && <ContactModal onClose={() => setShowContact(false)} />}
     </>
   );
 }
