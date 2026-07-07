@@ -230,7 +230,7 @@ export const SECTION_DATA: Record<string, SectionData> = {
       },
       {
         id: 'bf-sab-22',
-        title: 'Por confirmar',
+        title: 'Tesón',
         subtitle: 'Toro por las calles · Sábado 11 · 22:00h',
         image: '/toros/torosabado.jpg',
         fit: 'contain',
