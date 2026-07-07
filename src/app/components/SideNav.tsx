@@ -22,9 +22,6 @@ const CATEGORY_ICONS: Record<string, ReactNode> = {
 export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Props) {
   const [showHelp, setShowHelp] = useState(false);
 
-  const countByCategory = (cat: string) =>
-    cat === 'All' ? places.length : places.filter((p) => p.category === cat).length;
-
   const handleSelect = (cat: string) => {
     onClose();
     setTimeout(() => onSectionOpen(cat === 'All' ? null : cat), 260);
@@ -134,7 +131,6 @@ export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Prop
               {CATEGORIES.map((cat, i) => {
                 const isActive = cat === 'All' ? currentSection === null : currentSection === cat;
                 const color = CATEGORY_COLORS[cat];
-                const count = countByCategory(cat);
                 const icon = CATEGORY_ICONS[cat];
 
                 return (
@@ -217,7 +213,11 @@ export function SideNav({ isOpen, onClose, currentSection, onSectionOpen }: Prop
                       }}>
                         {cat === 'All'
                           ? 'Todos los lugares'
-                          : `${count} ${count === 1 ? 'lugar' : 'lugares'}`}
+                          : cat === 'Events'
+                          ? 'Programa de fiestas'
+                          : cat === 'Bullfighting'
+                          ? 'Corridas y encierros'
+                          : 'Explorar'}
                       </div>
                     </div>
 

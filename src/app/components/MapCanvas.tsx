@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, Marker, Circle, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { motion } from 'motion/react';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { Navigation2 } from 'lucide-react';
 import { Place, CATEGORY_COLORS, CATEGORY_EMOJIS } from './data/places';
 import 'leaflet/dist/leaflet.css';
@@ -129,11 +129,19 @@ export function MapCanvas({ places, selectedPlaceId, onMarkerClick, showLocation
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const [locating, setLocating] = useState(false);
   const [flyTo, setFlyTo] = useState<UserLocation | null>(null);
+  const watchIdRef = useRef<number | null>(null);
 
   const handleLocate = useCallback(() => {
     if (!navigator.geolocation) return;
+
+    // Stop any previous watcher
+    if (watchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(watchIdRef.current);
+    }
+
     setLocating(true);
-    navigator.geolocation.getCurrentPosition(
+
+    watchIdRef.current = navigator.geolocation.watchPosition(
       (pos) => {
         const loc = {
           lat: pos.coords.latitude,
@@ -141,12 +149,22 @@ export function MapCanvas({ places, selectedPlaceId, onMarkerClick, showLocation
           accuracy: pos.coords.accuracy,
         };
         setUserLocation(loc);
-        setFlyTo(loc);
+        // Only fly on first fix
+        setFlyTo((prev) => prev ?? loc);
         setLocating(false);
       },
       () => setLocating(false),
-      { enableHighAccuracy: true, timeout: 8000 },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 },
     );
+  }, []);
+
+  // Clean up watcher on unmount
+  useEffect(() => {
+    return () => {
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current);
+      }
+    };
   }, []);
 
   const createCustomIcon = (emoji: string, color: string, isSelected: boolean, imgSrc?: string) => {

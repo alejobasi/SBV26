@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowLeft,
@@ -413,30 +413,6 @@ function ContentCard({
           }}
         />
 
-        {/* Badge – top left */}
-        {card.badge && (
-          <motion.div
-            className="absolute flex items-center"
-            style={{ top: 'clamp(56px, 10vh, 72px)', left: 18 }}
-            animate={{ opacity: uiVisible && isVisible ? 1 : 0, x: uiVisible && isVisible ? 0 : -20 }}
-            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            <span
-              style={{
-                fontSize: 'clamp(10px, 2.5vw, 12px)',
-                fontWeight: 700,
-                color: 'white',
-                backgroundColor: `${color}ee`,
-                padding: '5px 11px',
-                borderRadius: 50,
-                backdropFilter: 'blur(8px)',
-                letterSpacing: '0.02em',
-              }}
-            >
-              {card.badge}
-            </span>
-          </motion.div>
-        )}
 
         {/* Right action buttons */}
         <motion.div
@@ -595,14 +571,21 @@ function ContentCard({
 
 interface Props {
   section: string;
+  initialCardId?: string | null;
   onBack: () => void;
+  onCardChange?: (cardId: string) => void;
 }
 
-export function SectionScreen({ section, onBack }: Props) {
+export function SectionScreen({ section, initialCardId, onBack, onCardChange }: Props) {
   const data = SECTION_DATA[section];
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [visibleCard, setVisibleCard] = useState(0);
-  const [activeGroup, setActiveGroup] = useState<string>(data?.groups?.[0]?.id ?? '');
+
+  // Find which group the initialCardId belongs to
+  const initialGroup = initialCardId && data?.groups
+    ? (data.cards.find((c) => c.id === initialCardId)?.group ?? data.groups[0]?.id)
+    : (data?.groups?.[0]?.id ?? '');
+
+  const [activeGroup, setActiveGroup] = useState<string>(initialGroup);
   const [uiVisible, setUiVisible] = useState(true);
 
   const cards = data
@@ -613,6 +596,32 @@ export function SectionScreen({ section, onBack }: Props) {
 
   const showHero = data?.showHero !== false;
   const totalCards = data ? Math.max(1, cards.length + (showHero ? 1 : 0)) : 0;
+
+  // Find initial scroll index from initialCardId
+  const initialIndex = (() => {
+    if (!initialCardId) return 0;
+    const idx = cards.findIndex((c) => c.id === initialCardId);
+    if (idx === -1) return 0;
+    return showHero ? idx + 1 : idx;
+  })();
+
+  const [visibleCard, setVisibleCard] = useState(initialIndex);
+
+  // Scroll to initial card on mount
+  useEffect(() => {
+    if (initialIndex > 0 && scrollRef.current) {
+      const h = scrollRef.current.clientHeight;
+      scrollRef.current.scrollTop = initialIndex * h;
+    }
+  }, []);
+
+  // Emit card ID when visible card changes
+  useEffect(() => {
+    const cardIdx = showHero ? visibleCard - 1 : visibleCard;
+    if (cardIdx >= 0 && cardIdx < cards.length) {
+      onCardChange?.(cards[cardIdx].id);
+    }
+  }, [visibleCard, cards, showHero]);
 
   const handleScroll = useCallback(() => {
     if (!scrollRef.current) return;
