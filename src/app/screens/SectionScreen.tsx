@@ -608,6 +608,7 @@ export function SectionScreen({ section, initialCardId, onBack, onCardChange }: 
   })();
 
   const [visibleCard, setVisibleCard] = useState(initialIndex);
+  const [scrollHintVisible, setScrollHintVisible] = useState(initialIndex === 0 && totalCards > 1);
 
   // Scroll to initial card on mount
   useEffect(() => {
@@ -631,6 +632,7 @@ export function SectionScreen({ section, initialCardId, onBack, onCardChange }: 
     if (h === 0) return;
     const idx = Math.round(scrollRef.current.scrollTop / h);
     setVisibleCard(Math.max(0, Math.min(idx, totalCards - 1)));
+    setScrollHintVisible(false);
   }, [totalCards]);
 
   const handleGroupChange = (id: string) => {
@@ -795,6 +797,30 @@ export function SectionScreen({ section, initialCardId, onBack, onCardChange }: 
           />
         ))}
       </div>
+
+      {/* ── Scroll hint ── */}
+      <AnimatePresence>
+        {scrollHintVisible && (
+          <motion.div
+            className="absolute inset-x-0 flex flex-col items-center pointer-events-none"
+            style={{ bottom: 28, zIndex: 15, gap: 6 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+          >
+            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)', fontWeight: 600, letterSpacing: '0.08em' }}>
+              Desliza para ver más
+            </span>
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <ChevronDown size={20} color="rgba(255,255,255,0.5)" strokeWidth={2} />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
