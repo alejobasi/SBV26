@@ -63,7 +63,7 @@ export const SECTION_DATA: Record<string, SectionData> = {
         title: 'Grand Prix',
         subtitle: 'Con la participación de las peñas de la localidad · Jueves 9 · 22:00h',
         description: 'Las peñas de la localidad se divertirán con juegos hinchables y vaquillas.',
-        image: '/San-buenaventura-moraleja-90_230711104144.jpg',
+        image: '/toros/grandPrix.jpeg',
         tags: ['Peñas de Moraleja', 'Juegos hinchables', 'Vaquillas'],
         badge: 'Jueves 9 · 22:00h',
         group: 'general',
