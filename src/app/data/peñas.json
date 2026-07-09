@@ -99,11 +99,10 @@
   },
   {
     "position": [
-      40.068234,
-      -6.659725
+      40.068602,
+      -6.660177
     ],
-    "title": "Peña Troppers",
-    "image": "https://vaprctnqhiurqvwuchcx.supabase.co/storage/v1/object/public/sbv25//file_00000000568c61f4928830b793c21934%20(1).png",
+    "title": "Peña Los Arrejuntaos",
     "color": "#8338ec"
   },
   {
@@ -421,10 +420,11 @@
   },
   {
     "position": [
-      40.068602,
-      -6.660177
+      40.067932,
+      -6.659509
     ],
-    "title": "Peña Los Arrejuntaos",
+    "title": "Peña Troppers",
+    "image": "https://vaprctnqhiurqvwuchcx.supabase.co/storage/v1/object/public/sbv25//file_00000000568c61f4928830b793c21934%20(1).png",
     "color": "#8338ec"
   },
   {
@@ -853,14 +853,6 @@
   },
   {
     "position": [
-      40.068604,
-      -6.660033
-    ],
-    "title": "Peña Los Arrejuntaos",
-    "color": "#8338ec"
-  },
-  {
-    "position": [
       40.068162,
       -6.660023
     ],
@@ -889,6 +881,22 @@
       -6.659886
     ],
     "title": "Peña Los Changaos",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068578,
+      -6.660227
+    ],
+    "title": "Peña Los Indecisos",
+    "color": "#8338ec"
+  },
+  {
+    "position": [
+      40.068794,
+      -6.659596
+    ],
+    "title": "Peña Amigos de Moraleja",
     "color": "#8338ec"
   }
 ]
