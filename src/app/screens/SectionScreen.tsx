@@ -322,6 +322,12 @@ function ShareSheet({
 
 // ─── Content Card ─────────────────────────────────────────────────────────────
 
+const galleryVariants = {
+  enter: (d: number) => ({ x: d > 0 ? 40 : -40, opacity: 0 }),
+  center: { x: 0, opacity: 1 },
+  exit: (d: number) => ({ x: d > 0 ? -40 : 40, opacity: 0 }),
+};
+
 function ContentCard({
   card,
   color,
@@ -337,6 +343,39 @@ function ContentCard({
 }
 ) {
   const [showShare, setShowShare] = useState(false);
+  const images = card.images && card.images.length > 0 ? card.images : [card.image];
+  const [imgIndex, setImgIndex] = useState(0);
+  const [imgDirection, setImgDirection] = useState(0);
+
+  const goToImage = useCallback(
+    (dir: 1 | -1) => {
+      setImgIndex((prev) => {
+        const next = prev + dir;
+        if (next < 0) return images.length - 1;
+        if (next >= images.length) return 0;
+        return next;
+      });
+      setImgDirection(dir);
+    },
+    [images.length],
+  );
+
+  const handleImageDragEnd = useCallback(
+    (_: unknown, info: { offset: { x: number } }) => {
+      if (info.offset.x < -50) goToImage(1);
+      else if (info.offset.x > 50) goToImage(-1);
+    },
+    [goToImage],
+  );
+
+  // Auto-advance the gallery every 5s while this card is the one on screen
+  useEffect(() => {
+    if (images.length <= 1 || !isVisible) return;
+    const id = setTimeout(() => goToImage(1), 5000);
+    return () => clearTimeout(id);
+  }, [images.length, isVisible, imgIndex, goToImage]);
+
+  const currentImage = images[imgIndex];
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -357,41 +396,84 @@ function ContentCard({
         style={{ height: '100%', scrollSnapAlign: 'start' }}
         onClick={onToggleUi}
       >
-        {/* Hero image */}
-        <div className="absolute inset-0">
-          {card.fit === 'contain' ? (
-            <>
-              {/* Blurred backdrop fills the letterboxed space on any screen ratio */}
-              <img
-                src={card.image}
-                alt=""
-                aria-hidden="true"
-                className="w-full h-full object-cover"
-                style={{ filter: 'blur(40px) brightness(0.55) saturate(1.2)', transform: 'scale(1.15)' }}
-              />
-              <img
-                src={card.image}
-                alt={card.title}
-                className="absolute inset-0 w-full h-full object-contain"
+        {/* Hero image / gallery */}
+        <motion.div
+          className="absolute inset-0"
+          drag={images.length > 1 ? 'x' : false}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.12}
+          onDragEnd={handleImageDragEnd}
+        >
+          <AnimatePresence mode="popLayout" custom={imgDirection} initial={false}>
+            <motion.div
+              key={imgIndex}
+              custom={imgDirection}
+              variants={galleryVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0"
+            >
+              {card.fit === 'contain' ? (
+                <>
+                  {/* Blurred backdrop fills the letterboxed space on any screen ratio */}
+                  <img
+                    src={currentImage}
+                    alt=""
+                    aria-hidden="true"
+                    className="w-full h-full object-cover"
+                    style={{ filter: 'blur(40px) brightness(0.55) saturate(1.2)', transform: 'scale(1.15)' }}
+                  />
+                  <img
+                    src={currentImage}
+                    alt={card.title}
+                    className="absolute inset-0 w-full h-full object-contain"
+                    style={{
+                      transform: isVisible ? 'scale(1.0)' : 'scale(1.03)',
+                      transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                    }}
+                  />
+                </>
+              ) : (
+                <img
+                  src={currentImage}
+                  alt={card.title}
+                  className="w-full h-full object-cover"
+                  style={{
+                    objectPosition: card.objectPosition ?? 'center',
+                    transform: isVisible ? 'scale(1.0)' : 'scale(1.06)',
+                    transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                  }}
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Gallery dots */}
+        {images.length > 1 && (
+          <motion.div
+            className="absolute flex items-center justify-center gap-1.5"
+            style={{ top: 'clamp(56px, 10vh, 72px)', insetInline: 0, zIndex: 2 }}
+            animate={{ opacity: uiVisible ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {images.map((_, i) => (
+              <div
+                key={i}
                 style={{
-                  transform: isVisible ? 'scale(1.0)' : 'scale(1.03)',
-                  transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                  height: 5,
+                  borderRadius: 4,
+                  width: i === imgIndex ? 20 : 6,
+                  backgroundColor: i === imgIndex ? 'white' : 'rgba(255,255,255,0.4)',
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.4)',
+                  transition: 'width 0.3s ease, background-color 0.3s ease',
                 }}
               />
-            </>
-          ) : (
-            <img
-              src={card.image}
-              alt={card.title}
-              className="w-full h-full object-cover"
-              style={{
-                objectPosition: card.objectPosition ?? 'center',
-                transform: isVisible ? 'scale(1.0)' : 'scale(1.06)',
-                transition: 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)',
-              }}
-            />
-          )}
-        </div>
+            ))}
+          </motion.div>
+        )}
 
         {/* Top vignette */}
         <motion.div

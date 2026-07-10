@@ -4,6 +4,8 @@ export interface SectionCard {
   subtitle: string;
   description?: string;
   image: string;
+  /** Extra photos for this card — shown as a swipeable, auto-advancing gallery starting with `image`. */
+  images?: string[];
   /** 'contain' shows the full image letterboxed (use for flyers/posters with important edge text). Defaults to 'cover'. */
   fit?: 'cover' | 'contain';
   /** CSS object-position value, e.g. 'center top', 'center 30%'. Defaults to 'center'. */
@@ -176,6 +178,7 @@ export const SECTION_DATA: Record<string, SectionData> = {
         title: 'Preocupaos Parade 2026',
         subtitle: 'Peña Los Preocupaos · 11 de Julio · 19:30h',
         image: '/PeñaPreocupadosEventos.jpg',
+        images: ['/PeñaPreocupadosEventos.jpg', '/PeñaPreocupadosEvento2.jpeg'],
         tags: ['Peña Los Preocupaos'],
         badge: '11 Jul · 19:30h',
         group: 'peñas',
